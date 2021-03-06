@@ -163,6 +163,8 @@ public class DB_1_7 extends OpMode {
     @Override
     public void loop() {
 
+        updateLeftDist();
+
         // <Driver 1>
 
         telemetry.addData("Real Grabber position ",grabber.getCurrentPosition()); //jacob wanted this- arm
@@ -335,7 +337,7 @@ public class DB_1_7 extends OpMode {
             pusher.setPosition(pusherPos);
             if(!gamepad2.left_bumper && !gamepad1.left_bumper) {
                 if(gamepad2.right_bumper) {
-                    intake.setPower(-1);
+                    intake.setPower(-0.5);
                 } else {
                     intake.setPower(1);
                 }
@@ -345,15 +347,15 @@ public class DB_1_7 extends OpMode {
         }
 
         if(gamepad2.right_stick_y < 0.5){
-            grabberPos+=1.5;
+            grabberPos+=9;
             grabber.setTargetPosition((int)(grabberPos));
 
         }
         if(gamepad2.right_stick_y > -0.5){
-            grabberPos-=1.5;
+            grabberPos-=9;
             grabber.setTargetPosition((int)(grabberPos));
         }
-        grabber.setPower(0.8);
+        grabber.setPower(1);
         grabber.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         if(gamepad2.left_trigger>0.05){
@@ -372,6 +374,12 @@ public class DB_1_7 extends OpMode {
      */
     @Override
     public void stop() {}
+
+    public void updateLeftDist(){
+        readLeftDist=leftDist.getDistance(DistanceUnit.CM);
+        telemetry.addData("Left Dist, ",readLeftDist);
+        telemetry.update();
+    }
 
     public void updateDist(){
         readBackDist=backDist.getDistance(DistanceUnit.CM);

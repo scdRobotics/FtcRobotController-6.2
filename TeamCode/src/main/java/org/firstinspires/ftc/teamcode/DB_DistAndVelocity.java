@@ -53,7 +53,7 @@ public class DB_DistAndVelocity extends OpMode {
 
     private boolean latched = false;
 
-    private double launchVelocity = 0.00333;
+    private double launchVelocity = 10;
 
     private double pusherPos = 0.35;
     private Servo pusher = null;
@@ -134,7 +134,7 @@ public class DB_DistAndVelocity extends OpMode {
         frontRight.setDirection(DcMotor.Direction.FORWARD);
         backRight.setDirection(DcMotor.Direction.FORWARD);
 
-        launchLeft.setDirection(DcMotor.Direction.FORWARD);
+        launchLeft.setDirection(DcMotor.Direction.REVERSE);
         launchRight.setDirection(DcMotor.Direction.FORWARD);
 
         //**** The IMU and associated variables ************
@@ -161,9 +161,9 @@ public class DB_DistAndVelocity extends OpMode {
         grabber.setMode(DcMotor.RunMode.RESET_ENCODERS);
         grabber.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        launchLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        launchLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         launchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        launchRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        launchRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         launchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
@@ -296,45 +296,9 @@ public class DB_DistAndVelocity extends OpMode {
         // right bumper:  run intake backward
         // y:             KILL EVERYTHING
 
-        if(gamepad2.dpad_up) {
-            if(launchVelocity < 0.75) {
-                launchVelocity += 0.00005;
-            }
-        }
-        else if (gamepad2.dpad_down) {
-            launchVelocity -= 0.00005;
-        }
+        launchLeft.setVelocity(launchVelocity);
+        launchRight.setVelocity(launchVelocity);
 
-        else if(gamepad2.dpad_right) {
-            if(launchVelocity < 0.75) {
-                launchVelocity += 0.0005;
-            }
-        }
-        else if (gamepad2.dpad_left) {
-            launchVelocity -= 0.0005;
-        }
-
-        if(gamepad2.y) {
-            launchVelocity = 0.387;
-        }
-        else if(gamepad2.b){
-            launchVelocity = 0.42;
-        }
-
-        /*if(gamepad2.a){
-            strafeLeftEncoder(19.0, 1.0);
-            launch();
-            strafeLeftEncoder(20.0, 1.0); //was 19.0
-            launch();
-        }*/
-
-        telemetry.addData("launchVelocity",launchVelocity);
-        launchLeft.setVelocity(-(launchVelocity - (gamepad2.left_trigger / 2)));
-        launchRight.setVelocity((launchVelocity - (gamepad2.left_trigger / 2)));
-
-        if(!gamepad2.y) {
-            launchLeft.setPower(-(launchVelocity - (gamepad1.left_trigger / 2)));
-            launchRight.setPower((launchVelocity - (gamepad1.left_trigger / 2)));
             if(gamepad2.x || gamepad1.x) {
                 pusherPos = 0.2;
             } else {
@@ -350,7 +314,6 @@ public class DB_DistAndVelocity extends OpMode {
             } else {
                 intake.setPower(0);
             }
-        }
 
         if(gamepad2.right_stick_y < 0.5){
             grabberPos+=1.5;
