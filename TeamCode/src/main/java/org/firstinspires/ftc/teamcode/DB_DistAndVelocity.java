@@ -53,7 +53,7 @@ public class DB_DistAndVelocity extends OpMode {
 
     private boolean latched = false;
 
-    private double launchVelocity = 10;
+    private double launchPower = 0.42;
 
     private double pusherPos = 0.35;
     private Servo pusher = null;
@@ -70,6 +70,7 @@ public class DB_DistAndVelocity extends OpMode {
     protected double initialAngle;
 
     protected final double countPerRotation=753.2;
+    protected final double countPerDegree=0.05142857142;
 
     protected DistanceSensor backDist;
     protected double readBackDist;
@@ -161,11 +162,6 @@ public class DB_DistAndVelocity extends OpMode {
         grabber.setMode(DcMotor.RunMode.RESET_ENCODERS);
         grabber.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        launchLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        launchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        launchRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        launchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
     }
 
     @Override
@@ -222,29 +218,74 @@ public class DB_DistAndVelocity extends OpMode {
                 telemetry.update();
             }
         }*/
-        if (gamepad1.dpad_left){
+
+
+
+
+
+        /*if (gamepad1.dpad_left){
             initialAngle = getAngle();
-        }
-        if (gamepad1.dpad_right){
-            zeroBotEncoder(1);
+        }*/
+        if(gamepad1.dpad_right){
+            //zeroBotEncoder(1);
             updateDist();
-            if(readRightDist>500 && readLeftDist>500){
-                strafeLeftEncoder(30, 1);
-                updateDist();
+
+            if(readFrontDist> 500){
+                double moveForwardDist = readBackDist-idealBackWall;
+                forwardEncoder(moveForwardDist,1);
+                //zeroBotEncoder(1);
             }
             else{
-                if(readLeftDist>500){
-                    double moveRightDist=readRightDist-idealRightWall;
-                    strafeRightEncoder(moveRightDist, 1);
-                }
-                else if(readRightDist>500){
-                    double moveLeftDist=readLeftDist-idealLeftWall;
-                    moveLeftDist=moveLeftDist*-1;
-                    strafeRightEncoder(moveLeftDist, 1);
-                }
+                double moveBackDist = idealFrontWall-readFrontDist;
+                reverseEncoder(moveBackDist,1);
+                //zeroBotEncoder(1);
+            }
+            updateDist();
+
+            if(readLeftDist>500){
+                double moveLeftDist= readRightDist-idealRightWall;
+                strafeLeftEncoder(moveLeftDist,1);
+                //zeroBotEncoder(1);
+            }
+            else {
+                double moveRightDist = readLeftDist-idealLeftWall;
+                strafeRightEncoder(moveRightDist,1);
+                //zeroBotEncoder(1);
             }
 
+            pusher.setPosition(0.2);
+            pause(1.25);
+            pusher.setPosition(0.35);
+            pause(1.25);
+            pusher.setPosition(0.2);
+            pause(1.25);
+            pusher.setPosition(0.35);
+            pause(1.25);
+            pusher.setPosition(0.2);
+            pause(1.25);
+            pusher.setPosition(0.35);
+            pause(1.25);
+            //pause(0.2);
+
+
+
+        }
+        /*if (gamepad1.dpad_right){
+            boolean checkMove = false;
             zeroBotEncoder(1);
+            updateDist();
+            if(readRightDist<readLeftDist && readRightDist>idealRightWall){
+                strafeLeftEncoder(10, 1);
+                updateDist();
+                checkMove = true;
+            }
+            else if(readLeftDist<readRightDist && readLeftDist>idealLeftWall && checkMove==true){
+                strafeLeftEncoder(10, 1);
+                updateDist();
+            }
+            checkMove = false;
+
+            /*zeroBotEncoder(1);
             updateDist();
             if(readFrontDist>500 && readBackDist>500){
                 reverseEncoder(30, 1);
@@ -260,7 +301,7 @@ public class DB_DistAndVelocity extends OpMode {
                     moveFrontDist=moveFrontDist*-1;
                     strafeLeftEncoder(moveFrontDist, 1);
                 }
-            }
+            }*/
 
             /*if(savedRightDist>500){
                 double moveDist = 182.88-(readLeftDist+37);
@@ -279,7 +320,7 @@ public class DB_DistAndVelocity extends OpMode {
                 reverseEncoder(moveDist, 1);
             }
             zeroBotEncoder(1);*/
-        }
+        //}
 
         if(gamepad1.a){
             reverseEncoder(20, 1);
@@ -296,8 +337,33 @@ public class DB_DistAndVelocity extends OpMode {
         // right bumper:  run intake backward
         // y:             KILL EVERYTHING
 
-        launchLeft.setVelocity(launchVelocity);
-        launchRight.setVelocity(launchVelocity);
+        if(gamepad2.dpad_up) {
+            if(launchPower < 0.75) {
+                launchPower += 0.00005;
+            }
+        }
+        else if (gamepad2.dpad_down) {
+            launchPower -= 0.00005;
+        }
+
+        else if(gamepad2.dpad_right) {
+            if(launchPower < 0.75) {
+                launchPower += 0.0005;
+            }
+        }
+        else if (gamepad2.dpad_left) {
+            launchPower -= 0.0005;
+        }
+
+        if(gamepad2.y) {
+            launchPower = 0.387;
+        }
+        else if(gamepad2.b){
+            launchPower = 0.42;
+        }
+        telemetry.addData("launchPower",launchPower);
+        launchLeft.setPower((launchPower - (gamepad2.left_trigger / 2)));
+        launchRight.setPower((launchPower - (gamepad2.left_trigger / 2)));
 
             if(gamepad2.x || gamepad1.x) {
                 pusherPos = 0.2;
@@ -398,10 +464,10 @@ public class DB_DistAndVelocity extends OpMode {
         frontRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
         backRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
 
-        frontRight.setTargetPosition((int)(pos*countPerRotation));
-        frontLeft.setTargetPosition((int)(pos*countPerRotation));
-        backRight.setTargetPosition((int)(pos*countPerRotation));
-        backLeft.setTargetPosition((int)(pos*countPerRotation));
+        frontRight.setTargetPosition((int)(pos/countPerDegree));
+        frontLeft.setTargetPosition((int)(pos/countPerDegree));
+        backRight.setTargetPosition((int)(pos/countPerDegree));
+        backLeft.setTargetPosition((int)(pos/countPerDegree));
 
         frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -498,16 +564,43 @@ public class DB_DistAndVelocity extends OpMode {
 
         }
     }
+    public void forwardEncoder(double pos, double MotorPower){
+        frontLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        backLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        frontRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        backRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        double cmOffset = pos/25;
+
+        frontLeft.setTargetPosition((int)(cmOffset*countPerRotation));
+        frontRight.setTargetPosition((int)(-cmOffset*countPerRotation));
+        backLeft.setTargetPosition((int)(cmOffset*countPerRotation));
+        backRight.setTargetPosition((int)(-cmOffset*countPerRotation));
+
+        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        backRight.setPower(MotorPower);
+        frontRight.setPower(MotorPower);
+        backLeft.setPower(MotorPower);
+        frontLeft.setPower(MotorPower);
+
+        while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()){
+
+        }
+    }
     public void rightEncoder(double pos, double MotorPower){
         frontLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
         backLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
         frontRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
         backRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
 
-        frontRight.setTargetPosition((int)(-pos*countPerRotation));
-        frontLeft.setTargetPosition((int)(-pos*countPerRotation));
-        backRight.setTargetPosition((int)(-pos*countPerRotation));
-        backLeft.setTargetPosition((int)(-pos*countPerRotation));
+        frontRight.setTargetPosition((int)(-pos/countPerDegree));
+        frontLeft.setTargetPosition((int)(-pos/countPerDegree));
+        backRight.setTargetPosition((int)(-pos/countPerDegree));
+        backLeft.setTargetPosition((int)(-pos/countPerDegree));
 
         frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);

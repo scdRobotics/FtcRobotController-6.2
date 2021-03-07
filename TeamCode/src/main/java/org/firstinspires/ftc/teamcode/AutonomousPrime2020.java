@@ -53,6 +53,7 @@ public class AutonomousPrime2020 extends LinearOpMode {
     protected double MotorPower=1.0;
 
     protected final double countPerRotation=753.2;
+    protected final double countPerDegree=0.05142857142;
 
     protected static  double NEW_P = 6.0;// was 8.0
     protected static  double NEW_I = 0.05;
@@ -163,9 +164,9 @@ public class AutonomousPrime2020 extends LinearOpMode {
             telemetry.update();
             newAngle = getAngle();
             if (newAngle > initialAngle){
-                rightEncoder(Math.abs(newAngle - initialAngle)*.026,MotorPower);
+                rightEncoder(Math.abs(newAngle - initialAngle),MotorPower);
             }else {
-                leftEncoder(Math.abs(newAngle - initialAngle)*.026,MotorPower);
+                leftEncoder(Math.abs(newAngle - initialAngle),MotorPower);
             }
         }
     }
@@ -608,16 +609,16 @@ public class AutonomousPrime2020 extends LinearOpMode {
 
         }
     }
-    public void leftEncoder(double pos, double MotorPower){
+    public void leftEncoder(double degrees, double MotorPower){
         frontLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
         backLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
         frontRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
         backRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
 
-        frontRight.setTargetPosition((int)(pos*countPerRotation));
-        frontLeft.setTargetPosition((int)(-pos*countPerRotation));
-        backRight.setTargetPosition((int)(pos*countPerRotation));
-        backLeft.setTargetPosition((int)(-pos*countPerRotation));
+        frontRight.setTargetPosition((int)(degrees/countPerDegree));
+        frontLeft.setTargetPosition((int)(-degrees/countPerDegree));
+        backRight.setTargetPosition((int)(degrees/countPerDegree));
+        backLeft.setTargetPosition((int)(-degrees/countPerDegree));
 
         frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -633,16 +634,16 @@ public class AutonomousPrime2020 extends LinearOpMode {
 
         }
     }
-    public void rightEncoder(double pos, double MotorPower){
+    public void rightEncoder(double degrees, double MotorPower){
         frontLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
         backLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
         frontRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
         backRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
 
-        frontRight.setTargetPosition((int)(-pos*countPerRotation));
-        frontLeft.setTargetPosition((int)(pos*countPerRotation));
-        backRight.setTargetPosition((int)(-pos*countPerRotation));
-        backLeft.setTargetPosition((int)(pos*countPerRotation));
+        frontRight.setTargetPosition((int)(-degrees/countPerDegree));
+        frontLeft.setTargetPosition((int)(degrees/countPerDegree));
+        backRight.setTargetPosition((int)(-degrees/countPerDegree));
+        backLeft.setTargetPosition((int)(degrees/countPerDegree));
 
         frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
