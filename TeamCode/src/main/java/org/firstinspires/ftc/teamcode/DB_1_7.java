@@ -309,7 +309,8 @@ public class DB_1_7 extends OpMode {
         }
 
         if(gamepad2.y) {
-            launchPower = 0.387;
+            launchPower = 0.4;
+            //Was 0.387
         }
         else if(gamepad2.b){
             launchPower = 0.42;
@@ -377,7 +378,7 @@ public class DB_1_7 extends OpMode {
 
     public void updateLeftDist(){
         readLeftDist=leftDist.getDistance(DistanceUnit.CM);
-        telemetry.addData("Left Dist, ",readLeftDist);
+//        telemetry.addData("Left Dist, ",readLeftDist);
         telemetry.update();
     }
 
@@ -386,10 +387,10 @@ public class DB_1_7 extends OpMode {
         readRightDist=rightDist.getDistance(DistanceUnit.CM);
         readFrontDist=frontDist.getDistance(DistanceUnit.CM);
         readLeftDist=leftDist.getDistance(DistanceUnit.CM);
-        telemetry.addData("Back Dist, ",readBackDist);
-        telemetry.addData("Right Dist, ",readRightDist);
-        telemetry.addData("Left Dist, ",readLeftDist);
-        telemetry.addData("Front Dist, ",readFrontDist);
+//        telemetry.addData("Back Dist, ",readBackDist);
+//        telemetry.addData("Right Dist, ",readRightDist);
+//        telemetry.addData("Left Dist, ",readLeftDist);
+//        telemetry.addData("Front Dist, ",readFrontDist);
         telemetry.update();
     }
     public void zeroBotEncoder(double MotorPower){

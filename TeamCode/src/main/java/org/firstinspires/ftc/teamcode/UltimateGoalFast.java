@@ -105,7 +105,7 @@ public class UltimateGoalFast extends AutonomousPrime2020 {
                     pause(1); //Pause for grabbing the wobble
                     wobbleGrabUp(1); //Move the arm up
                     forwardEncoder(85, 1); //Move towards the zone
-                    rightEncoder(5, 1); //Turn to drop the wobble
+                    rightEncoder(10, 1); //Turn to drop the wobble
                     wobbleLatchRelease(); //Drop the wobble
                     forwardEncoder(20, 1); //Go forward to release the wobble
                     strafeRightEncoder(50, 1); //Strafe to park away from the wobble
@@ -118,8 +118,8 @@ public class UltimateGoalFast extends AutonomousPrime2020 {
                      */
                     wobbleLock(); //Servo locks to wobble
                     intakeAdvance.setPosition(0.35); //Set intake advance arm to neutral position
-                    startLaunch(0.387); //Start spinning launch wheels
-                    //Was 0.42
+                    startLaunch(0.4); //Start spinning launch wheels
+                    //Was 0.387
                     forwardEncoder(160, 1); //Approach first PS
                     zeroBotEncoder(1); //Zero angle
                     updateDist(); //Get updated distances
@@ -194,7 +194,7 @@ public class UltimateGoalFast extends AutonomousPrime2020 {
                     wobbleGrabUp(1); //Move the arm up
                     forwardEncoder(145, 1); //Move towards the zone
                     pause(0.1); //Pause in between movements to avoid extreme slippage
-                    rightEncoder(3.35, 1); //Turn to drop the wobble
+                    rightEncoder(120, 1); //Turn to drop the wobble
                     wobbleLatchRelease(); //Drop the wobble
                     forwardEncoder(10, 1); //Go forward to release the wobble & secure parking
                     wobbleGrabUpLarge(1); //Move arm up to make sure hook isn't still caught
@@ -255,7 +255,7 @@ public class UltimateGoalFast extends AutonomousPrime2020 {
                     DELIVER WOBBLE
                      */
                     intakeEnd(); //Stop intake wheels
-                    rightEncoder(0.2, 1); //Turn to approach zone at a direct angle
+                    rightEncoder(10, 1); //Turn to approach zone at a direct angle
                     pause(0.1); //Pause in between movements to avoid extreme slippage
                     forwardEncoder(210, 1); //Move forward to zone
                     wobbleRelease(); //Drop wobble
