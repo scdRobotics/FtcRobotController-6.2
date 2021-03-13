@@ -11,7 +11,7 @@ public class PositionTest extends AutonomousPrime2020 {
 
         //telemetry.addData("Hello!", " World!");
         //pause(10);
-        leftEncoder(90, 0.25);
+        /*leftEncoder(90, 0.25);
         pause(0.75);
         zeroBotEncoder(0.25);
         pause(0.75);
@@ -29,7 +29,10 @@ public class PositionTest extends AutonomousPrime2020 {
         leftEncoder(360, 0.25);
         pause(0.75);
         zeroBotEncoder(0.25);
-        pause(0.75);
+        pause(0.75);*/
+
+        wobbleGrabDown(1);
+        pause(100);
 
         /*latch.setPosition(0);
         pause(2);

@@ -45,15 +45,15 @@ public class DB_1_7 extends OpMode {
 
     private DcMotor intake = null;
 
-    private DcMotor launchLeft = null;
-    private DcMotor launchRight = null;
+    private DcMotorEx launchLeft = null;
+    private DcMotorEx launchRight = null;
 
     private boolean running = true;
     private boolean pressed = false;
 
     private boolean latched = false;
 
-    private double launchPower = 0.42;
+    private double launchPower = 0.45;
 
     private double pusherPos = 0.35;
     private Servo pusher = null;
@@ -106,8 +106,8 @@ public class DB_1_7 extends OpMode {
 
         intake = hardwareMap.get(DcMotor.class, "intake");
 
-        launchLeft = hardwareMap.get(DcMotor.class, "launchLeft");
-        launchRight = hardwareMap.get(DcMotor.class, "launchRight");
+        launchLeft = hardwareMap.get(DcMotorEx.class, "launchLeft");
+        launchRight = hardwareMap.get(DcMotorEx.class, "launchRight");
 
         pusher = hardwareMap.get(Servo.class, "intakeAdvance");
 
@@ -130,6 +130,12 @@ public class DB_1_7 extends OpMode {
         backLeft.setDirection(DcMotor.Direction.FORWARD);
         frontRight.setDirection(DcMotor.Direction.FORWARD);
         backRight.setDirection(DcMotor.Direction.FORWARD);
+
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         launchLeft.setDirection(DcMotor.Direction.FORWARD);
         launchRight.setDirection(DcMotor.Direction.FORWARD);
@@ -163,6 +169,12 @@ public class DB_1_7 extends OpMode {
     @Override
     public void loop() {
 
+        double launchLeftSpeed = launchLeft.getVelocity();
+        double launchRightSpeed = launchRight.getVelocity();
+        telemetry.addData("Left Velocity: ", launchLeftSpeed);
+        telemetry.addData("Right Velocity: ", launchRightSpeed);
+        telemetry.update();
+
         updateLeftDist();
 
         // <Driver 1>
@@ -175,7 +187,7 @@ public class DB_1_7 extends OpMode {
         double yaw = gamepad1.right_stick_x;
 
         if(gamepad1.right_trigger >= 0.2) {
-            DriveSpeed=0.5;
+            DriveSpeed=0.35;
         }
         else{
             DriveSpeed=1;
@@ -216,7 +228,8 @@ public class DB_1_7 extends OpMode {
                 telemetry.update();
             }
         }*/
-        if (gamepad1.dpad_left){
+
+        /*if (gamepad1.dpad_left){
             initialAngle = getAngle();
         }
         if (gamepad1.dpad_right){
@@ -254,7 +267,7 @@ public class DB_1_7 extends OpMode {
                     moveFrontDist=moveFrontDist*-1;
                     strafeLeftEncoder(moveFrontDist, 1);
                 }
-            }
+            }*/
 
             /*if(savedRightDist>500){
                 double moveDist = 182.88-(readLeftDist+37);
@@ -273,7 +286,7 @@ public class DB_1_7 extends OpMode {
                 reverseEncoder(moveDist, 1);
             }
             zeroBotEncoder(1);*/
-        }
+        //}
 
         if(gamepad1.a){
             reverseEncoder(20, 1);
@@ -316,12 +329,12 @@ public class DB_1_7 extends OpMode {
             launchPower = 0.42;
         }
 
-        /*if(gamepad2.a){
-            strafeLeftEncoder(19.0, 1.0);
-            launch();
-            strafeLeftEncoder(20.0, 1.0); //was 19.0
-            launch();
-        }*/
+//        if(gamepad2.a){
+//            strafeLeftEncoder(19.0, 1.0);
+//            launch();
+//            strafeLeftEncoder(20.0, 1.0); //was 19.0
+//            launch();
+//        }
 
         telemetry.addData("launchPower",launchPower);
         launchLeft.setPower(-(launchPower - (gamepad2.left_trigger / 2)));
@@ -360,9 +373,9 @@ public class DB_1_7 extends OpMode {
         grabber.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         if(gamepad2.left_trigger>0.05){
-            latch.setPosition(0);
+            latch.setPosition(0.95);
         } else {
-            latch.setPosition(0.4);
+            latch.setPosition(0.6);
         }
 
         if(gamepad2.right_stick_button){

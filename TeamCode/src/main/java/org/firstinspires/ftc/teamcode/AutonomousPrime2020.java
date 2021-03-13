@@ -52,8 +52,8 @@ public class AutonomousPrime2020 extends LinearOpMode {
 
     protected double MotorPower=1.0;
 
-    protected final double countPerRotation=753.2;
-    protected final double countPerDegree=0.05142857142;
+    protected final double countPerRotation=537.6; //Was 753.2
+    protected final double countPerDegree=0.07205357141; //Was 0.05142857142
 
     protected static  double NEW_P = 6.0;// was 8.0
     protected static  double NEW_I = 0.05;
@@ -279,11 +279,11 @@ public class AutonomousPrime2020 extends LinearOpMode {
         launchRight.setPower(0);
     }
     public void launchAdvance(){
-        pause(0.55);
+        //pause(0.55);
         intakeAdvance.setPosition(0.2);
-        pause(0.55);
+        pause(0.75);
         intakeAdvance.setPosition(0.35);
-        pause(0.55);
+        pause(0.75);
     }
     public void launchAdvanceFast(){ //pause were 0.25
         intakeAdvance.setPosition(0.2);
@@ -296,7 +296,7 @@ public class AutonomousPrime2020 extends LinearOpMode {
         //intakeAdvance.setPosition(0.35);
     }
     public void wobbleRelease() {
-        wobbleRelease.setPosition(0.6);
+        wobbleRelease.setPosition(0.75);
         pause(0.2);
     }
     public void wobbleLock(){
@@ -304,7 +304,7 @@ public class AutonomousPrime2020 extends LinearOpMode {
     }
     public void wobbleGrabDown(double MotorPower){
         grabber.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        grabber.setTargetPosition((int)(-750));
+        grabber.setTargetPosition((int)(-650)); //was 750
         grabber.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         grabber.setPower(MotorPower);
         /*while (opModeIsActive() && (grabber.isBusy())){

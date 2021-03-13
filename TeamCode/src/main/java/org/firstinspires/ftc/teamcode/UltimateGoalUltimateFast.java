@@ -1,16 +1,19 @@
 package org.firstinspires.ftc.teamcode;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
+import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
+
 import java.util.List;
 
 // TODO: Add distance sensor checks to high goal & two other power shots; eventually, wobble delivery for 4 rings
 
-@Autonomous(name="--Tournament2Auto--", group="linearOpMode")
-public class UltimateGoalFast extends AutonomousPrime2020 {
+@Autonomous(name="--TestAuto--", group="linearOpMode")
+public class UltimateGoalUltimateFast extends AutonomousPrime2020 {
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
     private static final String LABEL_SECOND_ELEMENT = "Single";
@@ -145,7 +148,7 @@ public class UltimateGoalFast extends AutonomousPrime2020 {
                     //Was 50
                     wobbleRelease(); //Release wobble
                     /*
-                    SHOOT GROUND RING
+                    SHOOT GROUND RINGS
                      */
                     intakeStart(1); //Start intake wheels
                     startLaunch(0.4105); //Start launch wheels at a different power
@@ -202,67 +205,79 @@ public class UltimateGoalFast extends AutonomousPrime2020 {
                 }
                 else if (labelName.equals("Quad")){ //FOUR RINGS
                     /*
-                    HIT 3 PS
-                     */
-                    wobbleLock(); //Servo locks to wobble
-                    intakeAdvance.setPosition(0.35); //Set intake advance arm to neutral position
-                    startLaunch(0.387); //Start spinning launch wheels
-                    //Was 0.42
-                    forwardEncoder(160, 1); //Approach first PS
-                    zeroBotEncoder(1); //Zero angle
-                    updateDist(); //Get updated distances
-                    double rightWallDist=readRightDist-125; //Calculate how much & what direction to move in
-                    //Was 115, 135
-                    strafeRightEncoder(rightWallDist, 0.5); //Move the distance above
-                    launchAdvanceFast(); //Hit first PS
-                    strafeLeftEncoder(20, 1); //Strafe to second PS
-                    //Was 25
-                    zeroBotEncoder(1); //Zero angle
-                    pause(0.1); //Pause for arm to move
-                    launchAdvanceFast(); //Hit second PS
-                    strafeLeftEncoder(20, 1); //Strafe to third PS
-                    zeroBotEncoder(1); //Zero angle
-                    pause(0.1); //Pause for launch arm to move
-                    launchAdvanceFast(); //Hit third PS
-                    /*
-                    SHOOT FOUR RINGS
-                     */
-                    intakeStart(1); //Start intake wheels
-                    startLaunch(0.42); //Start launch wheels at a different power
-                    //Was 0.42
-                    strafeRightEncoder(92, 1); //Move right to be in line with ring stack
-                    //Was 97
-                    zeroBotEncoder(1); //Zero angle
-                    pause(0.2); //Pause in between movements to avoid extreme slippage
-                    reverseEncoder(45, 0.4); //Move back to intake first ring
-                    zeroBotEncoder(1); //Zero angle
-                    pause(0.5); //Pause to have time for intake
-                    launchAdvanceFast(); //Shoot first ring into high goal
-                    reverseEncoder(9, 0.5); //Move back to intake second ring
-                    pause(0.5); //Pause to have time for intake
-                    launchAdvanceFast(); //Shoot second ring into high goal
-                    reverseEncoder(9, 0.5); //Move back to intake third ring
-                    startLaunch(0.4105); //Start launch wheels at a different power
-                    //Was 0.45
-                    pause(0.5); //Pause to have time for intake & time for wheels to spin up
-                    launchAdvanceFast (); //Shoot third ring into high goal
-                    reverseEncoder(9, 0.5); //Move back to intake fourth ring
-                    pause(0.5); //Pause to have time for intake
-                    launchAdvanceFast(); //Shoot fourth ring into high goal
-                    pause(0.5); //Pause to have time for launch servo to rest
-                    launchAdvanceFast(); //Shoot any remaining rings into high goal
-                    pause(0.25); //Pause before next movement
-                    /*
                     DELIVER WOBBLE
                      */
-                    intakeEnd(); //Stop intake wheels
-                    rightEncoder(10, 1); //Turn to approach zone at a direct angle
-                    pause(0.1); //Pause in between movements to avoid extreme slippage
-                    forwardEncoder(210, 1); //Move forward to zone
-                    wobbleRelease(); //Drop wobble
-                    pause(0.1); //Pause for wobble to drop
-                    reverseEncoder(95, 1); //Park
-                    pause(100); //Pause so that the program does not run again
+                    wobbleLock();
+                    intakeAdvance.setPosition(0.35);
+                    startLaunch(0.45); //was 0.4105
+                    forwardEncoder(300, 1);
+                    pause(0.1);
+                    strafeRightEncoder(85, 1);
+                    wobbleRelease();
+                    pause(0.2);
+                    /*
+                    SHOOT ONBOARD RINGS
+                     */
+                    strafeLeftEncoder(30, 1);
+                    pause(0.1);
+                    reverseEncoder(150, 1);
+                    pause(0.1);
+                    zeroBotEncoder(1);
+                    updateDist();
+                    double moveDist = 73-readRightDist;
+                    strafeLeftEncoder(moveDist, 1);
+                    pause(0.1);
+                    launchAdvance();
+                    launchAdvance();
+                    launchAdvance();
+                    /*
+                    SHOOT RING STACK
+                     */
+                    wobbleGrabDown(1);
+                    latch.setPosition(0.6);
+                    startLaunch(0.44);
+                    intakeStart(1);
+                    reverseEncoder(25, 0.5);
+                    zeroBotEncoder(1);
+                    pause(0.5);
+                    launchAdvanceFast();
+                    reverseEncoder(9, 0.5);
+                    pause(0.5);
+                    launchAdvanceFast();
+                    reverseEncoder(9, 0.5);
+                    pause(0.5);
+                    launchAdvanceFast ();
+                    reverseEncoder(9, 0.5);
+                    pause(0.5);
+                    launchAdvanceFast();
+                    pause(0.5);
+                    launchAdvanceFast();
+                    pause(0.25);
+                    /*
+                    PICKUP WOBBLE
+                     */
+                    updateDist();
+                    double moveWobbleDist = 28-readRightDist; //was 33
+                    strafeLeftEncoder(moveWobbleDist, 0.5);
+                    pause(0.1);
+                    reverseEncoder(25, 1); //Was 15
+                    pause(1);
+                    latch.setPosition(0.95);
+                    pause(0.5);
+                    wobbleGrabUp(1);
+                    leftEncoder(180, 1);
+                    pause(0.1);
+                    reverseEncoder(200, 1);
+                    wobbleRelease();
+                    pause(0.25);
+                    forwardEncoder(100,1);
+
+
+
+
+                    pause(100);
+
+
                 }
             }
         }

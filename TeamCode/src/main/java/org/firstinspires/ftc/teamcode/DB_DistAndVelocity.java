@@ -362,8 +362,9 @@ public class DB_DistAndVelocity extends OpMode {
             launchPower = 0.42;
         }
         telemetry.addData("launchPower",launchPower);
-        launchLeft.setPower((launchPower - (gamepad2.left_trigger / 2)));
-        launchRight.setPower((launchPower - (gamepad2.left_trigger / 2)));
+
+        launchLeft.setPower(0.5);
+        launchRight.setPower(0.5);
 
             if(gamepad2.x || gamepad1.x) {
                 pusherPos = 0.2;
