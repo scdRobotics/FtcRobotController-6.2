@@ -69,8 +69,8 @@ public class DB_DistAndVelocity extends OpMode {
     protected double globalAngle;
     protected double initialAngle;
 
-    protected final double countPerRotation=753.2;
-    protected final double countPerDegree=0.05142857142;
+    protected final double countPerRotation=537.6;
+    protected final double countPerDegree=0.07205357141;
 
     protected DistanceSensor backDist;
     protected double readBackDist;
@@ -162,12 +162,26 @@ public class DB_DistAndVelocity extends OpMode {
         grabber.setMode(DcMotor.RunMode.RESET_ENCODERS);
         grabber.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        //launchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //launchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        //launchLeft.setVelocity(1);
+        //launchLeft.setPower(0.2);
+
+        //launchRight.setVelocity(1);
+        //launchRight.setPower(0.2);
+
+
     }
 
     @Override
     public void loop() {
 
         // <Driver 1>
+
+        //telemetry.addData("Left Velocity: ", launchLeft.getVelocity());
+        //telemetry.addData("Right Velocity: ", launchRight.getVelocity());
+        //telemetry.update();
 
         telemetry.addData("Real Grabber position ",grabber.getCurrentPosition()); //jacob wanted this- arm
         telemetry.addData("Expected Grabber position ",grabberPos);
@@ -223,11 +237,11 @@ public class DB_DistAndVelocity extends OpMode {
 
 
 
-        /*if (gamepad1.dpad_left){
+        if (gamepad1.dpad_left){
             initialAngle = getAngle();
-        }*/
+        }
         if(gamepad1.dpad_right){
-            //zeroBotEncoder(1);
+            zeroBotEncoder(1);
             updateDist();
 
             if(readFrontDist> 500){
@@ -245,15 +259,15 @@ public class DB_DistAndVelocity extends OpMode {
             if(readLeftDist>500){
                 double moveLeftDist= readRightDist-idealRightWall;
                 strafeLeftEncoder(moveLeftDist,1);
-                //zeroBotEncoder(1);
+                zeroBotEncoder(1);
             }
             else {
                 double moveRightDist = readLeftDist-idealLeftWall;
                 strafeRightEncoder(moveRightDist,1);
-                //zeroBotEncoder(1);
+                zeroBotEncoder(1);
             }
 
-            pusher.setPosition(0.2);
+            /*pusher.setPosition(0.2);
             pause(1.25);
             pusher.setPosition(0.35);
             pause(1.25);
@@ -264,7 +278,7 @@ public class DB_DistAndVelocity extends OpMode {
             pusher.setPosition(0.2);
             pause(1.25);
             pusher.setPosition(0.35);
-            pause(1.25);
+            pause(1.25);*/
             //pause(0.2);
 
 
@@ -362,9 +376,7 @@ public class DB_DistAndVelocity extends OpMode {
             launchPower = 0.42;
         }
         telemetry.addData("launchPower",launchPower);
-
-        launchLeft.setPower(0.5);
-        launchRight.setPower(0.5);
+        //launchLeft.setRunMode(DcMotor.RunMode.);
 
             if(gamepad2.x || gamepad1.x) {
                 pusherPos = 0.2;
@@ -374,12 +386,12 @@ public class DB_DistAndVelocity extends OpMode {
             pusher.setPosition(pusherPos);
             if(!gamepad2.left_bumper && !gamepad1.left_bumper) {
                 if(gamepad2.right_bumper) {
-                    intake.setPower(-1);
+                    //intake.setPower(-1);
                 } else {
-                    intake.setPower(1);
+                    //intake.setPower(1);
                 }
             } else {
-                intake.setPower(0);
+                //intake.setPower(0);
             }
 
         if(gamepad2.right_stick_y < 0.5){
@@ -439,9 +451,9 @@ public class DB_DistAndVelocity extends OpMode {
             //** ie how many degress would rightTurn(0.1) get me and calculate value based on Math.abs(newAngle - initialAngle)
             //if (newAngle > initialAngle + 10 || newAngle > initialAngle - 10){
             if (newAngle > initialAngle){
-                rightEncoder(Math.abs(newAngle - initialAngle)*.03, MotorPower);
+                rightEncoder(Math.abs(newAngle - initialAngle), MotorPower);
             }else {
-                leftEncoder(Math.abs(newAngle - initialAngle)*.03, MotorPower);
+                leftEncoder(Math.abs(newAngle - initialAngle), MotorPower);
             }
         }
 

@@ -157,13 +157,13 @@ public class AutonomousPrime2020 extends LinearOpMode {
         telemetry.addData("New ",newAngle);
         telemetry.addData("Diff ",Math.abs(newAngle - initialAngle));
         telemetry.update();
-        while (Math.abs(newAngle - initialAngle) > 1 && opModeIsActive()){
+        while (Math.abs(newAngle - initialAngle) > 5 && opModeIsActive()){
             telemetry.addData("Zerobot Adj Initial ",initialAngle);
             telemetry.addData("New ",newAngle);
             telemetry.addData("Diff ",Math.abs(newAngle - initialAngle));
             telemetry.update();
             newAngle = getAngle();
-            if (newAngle > initialAngle){
+            if (newAngle > initialAngle ){
                 rightEncoder(Math.abs(newAngle - initialAngle),MotorPower);
             }else {
                 leftEncoder(Math.abs(newAngle - initialAngle),MotorPower);
@@ -337,7 +337,7 @@ public class AutonomousPrime2020 extends LinearOpMode {
     }
     public void wobbleLatchRelease(){
         latch.setPosition(0.3);
-        pause(0.5);
+        //pause(0.5);
     }
     /*public void reverseEncoderArm(double pos, double MotorPower){
         frontLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);

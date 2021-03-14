@@ -169,10 +169,8 @@ public class DB_1_7 extends OpMode {
     @Override
     public void loop() {
 
-        double launchLeftSpeed = launchLeft.getVelocity();
-        double launchRightSpeed = launchRight.getVelocity();
-        telemetry.addData("Left Velocity: ", launchLeftSpeed);
-        telemetry.addData("Right Velocity: ", launchRightSpeed);
+        telemetry.addData("Left Velocity: ", launchLeft.getVelocity());
+        telemetry.addData("Right Velocity: ", launchRight.getVelocity());
         telemetry.update();
 
         updateLeftDist();

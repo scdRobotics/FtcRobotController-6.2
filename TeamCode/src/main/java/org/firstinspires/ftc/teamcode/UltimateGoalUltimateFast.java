@@ -211,68 +211,65 @@ public class UltimateGoalUltimateFast extends AutonomousPrime2020 {
                     intakeAdvance.setPosition(0.35);
                     startLaunch(0.45); //was 0.4105
                     forwardEncoder(300, 1);
-                    pause(0.1);
-                    strafeRightEncoder(85, 1);
+                    //pause(0.1);
+                    strafeRightEncoder(90, 1); //Was 85
                     wobbleRelease();
-                    pause(0.2);
+                    zeroBotEncoder(1);
                     /*
                     SHOOT ONBOARD RINGS
                      */
-                    strafeLeftEncoder(30, 1);
-                    pause(0.1);
+                    //strafeLeftEncoder(30, 1);
+                    //pause(0.1);
                     reverseEncoder(150, 1);
                     pause(0.1);
                     zeroBotEncoder(1);
                     updateDist();
-                    double moveDist = 73-readRightDist;
+                    double moveDist = 83-readRightDist; //Was 73
                     strafeLeftEncoder(moveDist, 1);
                     pause(0.1);
                     launchAdvance();
                     launchAdvance();
-                    launchAdvance();
+                    launchAdvanceFast();
                     /*
                     SHOOT RING STACK
                      */
-                    wobbleGrabDown(1);
+                    wobbleGrabDown(0.25);
                     latch.setPosition(0.6);
                     startLaunch(0.44);
                     intakeStart(1);
+                    //strafeRightEncoder(20, 1);
+                    //pause(0.1);
                     reverseEncoder(25, 0.5);
                     zeroBotEncoder(1);
                     pause(0.5);
                     launchAdvanceFast();
-                    reverseEncoder(9, 0.5);
-                    pause(0.5);
+                    reverseEncoder(9, 1);
+                    pause(0.15);
+                    reverseEncoder(9, 1);
+                    pause(0.15);
+                    reverseEncoder(9, 1);
+                    pause(0.15);
+                    launchAdvance();
+                    launchAdvance();
                     launchAdvanceFast();
-                    reverseEncoder(9, 0.5);
-                    pause(0.5);
-                    launchAdvanceFast ();
-                    reverseEncoder(9, 0.5);
-                    pause(0.5);
-                    launchAdvanceFast();
-                    pause(0.5);
-                    launchAdvanceFast();
-                    pause(0.25);
                     /*
                     PICKUP WOBBLE
                      */
                     updateDist();
-                    double moveWobbleDist = 28-readRightDist; //was 33
+                    double moveWobbleDist = 38-readRightDist; //was 28
                     strafeLeftEncoder(moveWobbleDist, 0.5);
                     pause(0.1);
                     reverseEncoder(25, 1); //Was 15
-                    pause(1);
+                    pause(0.1);
                     latch.setPosition(0.95);
-                    pause(0.5);
+                    pause(0.15); //was .25, .175
                     wobbleGrabUp(1);
-                    leftEncoder(180, 1);
+                    rightEncoder(183, 1);
                     pause(0.1);
                     reverseEncoder(200, 1);
-                    wobbleRelease();
-                    pause(0.25);
-                    forwardEncoder(100,1);
-
-
+                    wobbleLatchRelease();
+                    //pause(0.25);
+                    forwardEncoder(70,1);
 
 
                     pause(100);
