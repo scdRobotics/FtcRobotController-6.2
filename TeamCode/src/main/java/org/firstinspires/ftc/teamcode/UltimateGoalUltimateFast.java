@@ -223,7 +223,7 @@ public class UltimateGoalUltimateFast extends AutonomousPrime2020 {
                     reverseEncoder(150, 1);
                     pause(0.1);
                     zeroBotEncoder(1);
-                    updateDist();
+                    updateRightDist();
                     double moveDist = 83-readRightDist; //Was 73
                     strafeLeftEncoder(moveDist, 1);
                     pause(0.1);
@@ -255,7 +255,7 @@ public class UltimateGoalUltimateFast extends AutonomousPrime2020 {
                     /*
                     PICKUP WOBBLE
                      */
-                    updateDist();
+                    updateRightDist();
                     double moveWobbleDist = 38-readRightDist; //was 28
                     strafeLeftEncoder(moveWobbleDist, 0.5);
                     pause(0.1);

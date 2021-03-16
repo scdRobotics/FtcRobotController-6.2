@@ -514,6 +514,16 @@ public class AutonomousPrime2020 extends LinearOpMode {
         telemetry.addData("Front Dist, ",readFrontDist);
         telemetry.update();
     }
+    public void updateRightDist(){
+        readRightDist=rightDist.getDistance(DistanceUnit.CM);
+        telemetry.addData("Right Dist, ",readRightDist);
+        telemetry.update();
+    }
+    public void updateLeftDist(){
+        readLeftDist=leftDist.getDistance(DistanceUnit.CM);
+        telemetry.addData("Left Dist, ",readLeftDist);
+        telemetry.update();
+    }
     /*public void strafeRightDistCheck(double MotorPower){
         updateDist();
         while(readDist>=50){

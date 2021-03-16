@@ -89,10 +89,15 @@ public class DB_DistAndVelocity extends OpMode {
     protected double savedFrontDist;
     protected double savedBackDist;
 
-    protected double idealRightWall=74.6;
-    protected double idealLeftWall=123.9;
-    protected double idealFrontWall=209.0;
-    protected double idealBackWall=109.8;
+    //protected double idealRightWall=74.6; //71
+    //protected double idealLeftWall=123.9; //128
+    //protected double idealFrontWall=209.0; //216
+    //protected double idealBackWall=109.8; //103
+
+    protected double idealRightWall=71; //71
+    protected double idealLeftWall=128; //128
+    protected double idealFrontWall=126; //216
+    protected double idealBackWall=103; //103
 
     public static final double TICKS_PER_REV = 28;
     public static final double MAX_RPM = 6000;
@@ -165,11 +170,7 @@ public class DB_DistAndVelocity extends OpMode {
         //launchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         //launchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        //launchLeft.setVelocity(1);
-        //launchLeft.setPower(0.2);
 
-        //launchRight.setVelocity(1);
-        //launchRight.setPower(0.2);
 
 
     }
@@ -179,12 +180,13 @@ public class DB_DistAndVelocity extends OpMode {
 
         // <Driver 1>
 
-        //telemetry.addData("Left Velocity: ", launchLeft.getVelocity());
+        telemetry.addData("Left Velocity: ", launchLeft.getVelocity());
         //telemetry.addData("Right Velocity: ", launchRight.getVelocity());
-        //telemetry.update();
 
-        telemetry.addData("Real Grabber position ",grabber.getCurrentPosition()); //jacob wanted this- arm
-        telemetry.addData("Expected Grabber position ",grabberPos);
+        updateDist();
+        telemetry.addData("Front Dist: ", readFrontDist);
+        telemetry.addData("Back Dist: ", readBackDist);
+        telemetry.update();
 
         double norm = -gamepad1.left_stick_y;
         double strafe = gamepad1.left_stick_x;
@@ -237,11 +239,11 @@ public class DB_DistAndVelocity extends OpMode {
 
 
 
-        if (gamepad1.dpad_left){
+        /*if (gamepad1.dpad_left){
             initialAngle = getAngle();
-        }
+        }*/
         if(gamepad1.dpad_right){
-            zeroBotEncoder(1);
+            //zeroBotEncoder(1);
             updateDist();
 
             if(readFrontDist> 500){
@@ -259,12 +261,12 @@ public class DB_DistAndVelocity extends OpMode {
             if(readLeftDist>500){
                 double moveLeftDist= readRightDist-idealRightWall;
                 strafeLeftEncoder(moveLeftDist,1);
-                zeroBotEncoder(1);
+                //zeroBotEncoder(1);
             }
             else {
                 double moveRightDist = readLeftDist-idealLeftWall;
                 strafeRightEncoder(moveRightDist,1);
-                zeroBotEncoder(1);
+                //zeroBotEncoder(1);
             }
 
             /*pusher.setPosition(0.2);
@@ -344,6 +346,8 @@ public class DB_DistAndVelocity extends OpMode {
         }
 
 
+
+
         // <Driver 2>
         // CONTROLS:
         // left trigger:  slow down the launcher
@@ -376,6 +380,13 @@ public class DB_DistAndVelocity extends OpMode {
             launchPower = 0.42;
         }
         telemetry.addData("launchPower",launchPower);
+
+        //launchLeft.setVelocity(1);
+        launchLeft.setPower(launchPower);
+
+        //launchRight.setVelocity(1);
+        launchRight.setPower(launchPower);
+
         //launchLeft.setRunMode(DcMotor.RunMode.);
 
             if(gamepad2.x || gamepad1.x) {
@@ -450,7 +461,7 @@ public class DB_DistAndVelocity extends OpMode {
             ///*** Better to come up with a formula for how long to turn based on difference in the angle
             //** ie how many degress would rightTurn(0.1) get me and calculate value based on Math.abs(newAngle - initialAngle)
             //if (newAngle > initialAngle + 10 || newAngle > initialAngle - 10){
-            if (newAngle > initialAngle){
+            if (newAngle > initialAngle + 10 || newAngle > initialAngle-10){
                 rightEncoder(Math.abs(newAngle - initialAngle), MotorPower);
             }else {
                 leftEncoder(Math.abs(newAngle - initialAngle), MotorPower);
