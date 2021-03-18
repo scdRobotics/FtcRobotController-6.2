@@ -31,8 +31,10 @@ public class PositionTest extends AutonomousPrime2020 {
         zeroBotEncoder(0.25);
         pause(0.75);*/
 
-        wobbleGrabDown(1);
-        pause(100);
+        VennisFunctEnhanced(200, 0.25, 0.5);
+
+        //wobbleGrabDown(1);
+        //pause(100);
 
         /*latch.setPosition(0);
         pause(2);

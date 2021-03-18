@@ -365,6 +365,68 @@ public class AutonomousPrime2020 extends LinearOpMode {
             telemetry.update();
         }
     }*/
+    public void VennisFunctEnhanced(double pos, double StandardMotorPower, double OffMotorPower){
+        frontLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        backLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        frontRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        backRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        double cmOffset = pos/25;
+
+        frontLeft.setTargetPosition((int)(cmOffset*countPerRotation));
+        frontRight.setTargetPosition((int)(cmOffset*countPerRotation));
+        backLeft.setTargetPosition((int)(cmOffset*countPerRotation));
+        backRight.setTargetPosition((int)(cmOffset*countPerRotation));
+
+        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        frontLeft.setPower(StandardMotorPower);
+        backLeft.setPower(StandardMotorPower*OffMotorPower);
+        frontRight.setPower(StandardMotorPower*OffMotorPower);
+        backRight.setPower(StandardMotorPower);
+        while (opModeIsActive() && (frontLeft.isBusy() || backRight.isBusy())){
+            telemetry.addData("FL ",frontLeft.isBusy());
+            telemetry.addData("FR ",frontRight.isBusy());
+            telemetry.addData("BL ", backLeft.isBusy());
+            telemetry.addData("BR ",backRight.isBusy());
+            telemetry.update();
+        }
+    }
+
+    public void VennisFunct(double pos, double MotorPower){
+        frontLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        backLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        frontRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        backRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
+
+        double cmOffset = pos/25;
+
+        frontLeft.setTargetPosition((int)(cmOffset*countPerRotation));
+        frontRight.setTargetPosition((int)(cmOffset*countPerRotation));
+        backLeft.setTargetPosition((int)(cmOffset*countPerRotation));
+        backRight.setTargetPosition((int)(cmOffset*countPerRotation));
+
+        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        frontLeft.setPower(MotorPower);
+        backLeft.setPower(MotorPower*-0.66666);
+        frontRight.setPower(MotorPower*-0.66666);
+        backRight.setPower(MotorPower);
+        while (opModeIsActive() && (frontLeft.isBusy() || backRight.isBusy())){
+            telemetry.addData("FL ",frontLeft.isBusy());
+            telemetry.addData("FR ",frontRight.isBusy());
+            telemetry.addData("BL ", backLeft.isBusy());
+            telemetry.addData("BR ",backRight.isBusy());
+            telemetry.update();
+        }
+    }
+
     public void forwardEncoder(double pos, double MotorPower){ //1 pos = 25 cm
         frontLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
         backLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
