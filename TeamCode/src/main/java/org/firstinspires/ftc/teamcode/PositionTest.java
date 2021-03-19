@@ -30,8 +30,27 @@ public class PositionTest extends AutonomousPrime2020 {
         pause(0.75);
         zeroBotEncoder(0.25);
         pause(0.75);*/
-
-        VennisFunctEnhanced(200, 0.25, 0.5);
+        updateDist();
+        double ILD = readLeftDist;
+        double IBD = readBackDist;
+        VennisFunctEnhanced(50, 0.25, 0.75);
+        updateDist();
+        double NLD = readLeftDist;
+        double NBD = readBackDist;
+        double rightDistMoved = NLD-ILD;
+        double backDistMoved = NBD-IBD;
+        double radiansTurned = Math.atan2(backDistMoved, rightDistMoved);
+        double degreesTurned = Math.toDegrees(radiansTurned);
+        telemetry.addData("Initial Left Dist: ", ILD);
+        telemetry.addData("Initial Back Dist: ", IBD);
+        telemetry.addData("Second Left Dist: ", NLD);
+        telemetry.addData("Second Back Dist: ", NBD);
+        telemetry.addData("Dist Moved Right: ", rightDistMoved);
+        telemetry.addData("Dist Moved Back: ", backDistMoved);
+        telemetry.addData("Radians Turned: ", radiansTurned);
+        telemetry.addData("Degrees Turned: ", degreesTurned);
+        telemetry.update();
+        pause(30);
 
         //wobbleGrabDown(1);
         //pause(100);

@@ -387,13 +387,17 @@ public class AutonomousPrime2020 extends LinearOpMode {
         backLeft.setPower(StandardMotorPower*OffMotorPower);
         frontRight.setPower(StandardMotorPower*OffMotorPower);
         backRight.setPower(StandardMotorPower);
-        while (opModeIsActive() && (frontLeft.isBusy() || backRight.isBusy())){
+        while (opModeIsActive() && (frontLeft.isBusy() && backRight.isBusy())){
             telemetry.addData("FL ",frontLeft.isBusy());
             telemetry.addData("FR ",frontRight.isBusy());
             telemetry.addData("BL ", backLeft.isBusy());
             telemetry.addData("BR ",backRight.isBusy());
             telemetry.update();
         }
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     public void VennisFunct(double pos, double MotorPower){
