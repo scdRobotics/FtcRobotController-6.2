@@ -30,7 +30,17 @@ public class PositionTest extends AutonomousPrime2020 {
         pause(0.75);
         zeroBotEncoder(0.25);
         pause(0.75);*/
-        updateDist();
+
+
+        velocitySpin(1, 1060);
+        while(opModeIsActive()){
+            telemetry.addData("Right Launch Wheel: ", launchRight.getVelocity());
+            telemetry.addData("Left Launch Wheel: ", launchLeft.getVelocity());
+            telemetry.update();
+        }
+
+
+        /*updateDist();
         double ILD = readLeftDist;
         double IBD = readBackDist;
         VennisFunctEnhanced(50, 0.25, 0.75);
@@ -50,7 +60,9 @@ public class PositionTest extends AutonomousPrime2020 {
         telemetry.addData("Radians Turned: ", radiansTurned);
         telemetry.addData("Degrees Turned: ", degreesTurned);
         telemetry.update();
-        pause(30);
+        pause(30);*/
+
+
 
         //wobbleGrabDown(1);
         //pause(100);

@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -117,6 +118,8 @@ public class AutonomousPrime2020 extends LinearOpMode {
         backLeft.setDirection(DcMotor.Direction.REVERSE);
         backRight.setDirection(DcMotor.Direction.FORWARD);
 
+        launchLeft.setDirection(DcMotor.Direction.REVERSE);
+
         intakeAdvance=hardwareMap.get(Servo.class,"intakeAdvance");
 
         wobbleRelease=hardwareMap.get(Servo.class,"wobbleRelease");
@@ -135,6 +138,16 @@ public class AutonomousPrime2020 extends LinearOpMode {
         }
         initialAngle = getAngle();
 
+    }
+
+    public void velocitySpin(double MotorPower, double Velocity){
+        launchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        launchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        launchLeft.setPower(MotorPower);
+        launchRight.setPower(MotorPower);
+        launchLeft.setVelocity(Velocity);
+        launchRight.setVelocity(Velocity);
     }
 
 
