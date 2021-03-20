@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.SwitchableLight;
 
 @Autonomous(name="PositionTest", group="linearOpMode")
 public class PositionTest extends AutonomousPrime2020 {
@@ -37,6 +38,11 @@ public class PositionTest extends AutonomousPrime2020 {
             telemetry.addData("Right Launch Wheel: ", launchRight.getVelocity());
             telemetry.addData("Left Launch Wheel: ", launchLeft.getVelocity());
             telemetry.update();
+            double launchLeftVelocity = launchLeft.getVelocity();
+            double launchRightVelocity = launchRight.getVelocity();
+            if((launchLeftVelocity<=1080 && launchLeftVelocity>=1040) && (launchRightVelocity<=1080 && launchRightVelocity>=1040)){
+                telemetry.addData("Ready to spin at: ", launchLeftVelocity);
+            }
         }
 
 

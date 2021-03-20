@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode;
+import com.qualcomm.ftccommon.SoundPlayer;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.SwitchableLight;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
@@ -21,9 +24,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.Gyroscope;
 import com.qualcomm.robotcore.hardware.Blinker;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Rotation;
+
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -84,9 +90,15 @@ public class AutonomousPrime2020 extends LinearOpMode {
     protected DistanceSensor rightDist;
     protected double readRightDist;
 
+    protected ColorSensor indicator;
+
+    boolean soundPlaying = false;
+
     public void mapObjects(){
         telemetry.addData("Status","Initialized");
         telemetry.update();
+
+        indicator=hardwareMap.get(ColorSensor.class, "indicator");
 
         frontLeft=hardwareMap.get(DcMotorEx.class,"frontLeft");
         frontRight=hardwareMap.get(DcMotorEx.class,"frontRight");
@@ -183,6 +195,23 @@ public class AutonomousPrime2020 extends LinearOpMode {
             }
         }
     }
+
+    void PlaySound(File soundFile)
+    {
+        //--- Configure our Sound Player
+        SoundPlayer.PlaySoundParams params = new SoundPlayer.PlaySoundParams();
+        params.loopControl = 0;
+        params.waitForNonLoopingSoundsToFinish = true;
+
+        // Start playing, when done update soundPlaying variable
+        soundPlaying = true;
+        SoundPlayer.getInstance().startPlaying(hardwareMap.appContext, soundFile, params, null,
+                new Runnable() { public void run()
+                {
+                    soundPlaying = false;
+                }});
+    }
+
 
     public void runOpMode() {
         mapObjects();

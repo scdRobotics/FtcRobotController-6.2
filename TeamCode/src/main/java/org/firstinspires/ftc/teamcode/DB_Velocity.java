@@ -15,28 +15,24 @@ package org.firstinspires.ftc.teamcode;
 
 // TODO: Add distance sensor aided/automatic high goal targeting; we may need distance sensors on all sides for this to work
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
-import com.qualcomm.robotcore.hardware.SwitchableLight;
 
-@TeleOp(name = "--Tournament2OpMode--", group = "Current")
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-public class DB_1_7 extends OpMode {
+@TeleOp(name = "--VELOCITY CITY--", group = "Current")
+
+public class DB_Velocity extends OpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     private DcMotor frontLeft = null;
@@ -53,8 +49,6 @@ public class DB_1_7 extends OpMode {
     private boolean pressed = false;
 
     private boolean latched = false;
-
-    private double launchPower = 0.45;
 
     private double pusherPos = 0.35;
     private Servo pusher = null;
@@ -93,6 +87,8 @@ public class DB_1_7 extends OpMode {
     protected double idealLeftWall=123.9;
     protected double idealFrontWall=209.0;
     protected double idealBackWall=109.8;
+
+    protected double launchVelocity = 1020;
 
     double grabberPos = 0;
 
@@ -138,7 +134,7 @@ public class DB_1_7 extends OpMode {
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-        launchLeft.setDirection(DcMotor.Direction.FORWARD);
+        launchLeft.setDirection(DcMotor.Direction.REVERSE);
         launchRight.setDirection(DcMotor.Direction.FORWARD);
 
         //**** The IMU and associated variables ************
@@ -151,6 +147,11 @@ public class DB_1_7 extends OpMode {
         imu.initialize(parameters);
         initialAngle = getAngle();
         telemetry.addData("Status", "Initialized");
+
+        launchLeft.setPower(1);
+        launchRight.setPower(1);
+        launchLeft.setVelocity(1020);
+        launchRight.setVelocity(1020);
     }
 
     @Override
@@ -170,16 +171,31 @@ public class DB_1_7 extends OpMode {
     @Override
     public void loop() {
 
+
+        if((launchLeft.getVelocity() >= launchVelocity-20 && launchLeft.getVelocity() <= launchVelocity+20) && (launchRight.getVelocity() >= launchVelocity-20 && launchRight.getVelocity() <= launchVelocity+20)){
+            telemetry.addData("-----------------------------------------------------" +
+                    "-----------------------------------------------------" +
+                    "-----------------------------------------------------" +
+                    "-----------------------------------------------------" +
+                    "-----------------------------------------------------" +
+                    "-----------------------------------------------------" +
+                    "-----------------------------------------------------" +
+                    "-----------------------------------------------------" +
+                    "-----------------------------------------------------" +
+                    "-----------------------------------------------------" +
+                    "-----------------------------------------------------" +
+                    "-----------------------------------------------------" +
+                    "-----------------------------------------------------" +
+                    "-----------------------------------------------------", launchVelocity);
+        }
         telemetry.addData("Left Velocity: ", launchLeft.getVelocity());
         telemetry.addData("Right Velocity: ", launchRight.getVelocity());
         telemetry.update();
 
-        updateLeftDist();
-
         // <Driver 1>
 
-        telemetry.addData("Real Grabber position ",grabber.getCurrentPosition()); //jacob wanted this- arm
-        telemetry.addData("Expected Grabber position ",grabberPos);
+        //telemetry.addData("Real Grabber position ",grabber.getCurrentPosition()); //jacob wanted this- arm
+        //telemetry.addData("Expected Grabber position ",grabberPos);
 
         double norm = -gamepad1.left_stick_y;
         double strafe = gamepad1.left_stick_x;
@@ -303,30 +319,27 @@ public class DB_1_7 extends OpMode {
         // y:             KILL EVERYTHING
 
         if(gamepad2.dpad_up) {
-            if(launchPower < 0.75) {
-                launchPower += 0.00005;
-            }
+            launchLeft.setPower(1);
+            launchRight.setPower(1);
+            launchVelocity=1020;
         }
         else if (gamepad2.dpad_down) {
-            launchPower -= 0.00005;
+            launchLeft.setPower(1);
+            launchRight.setPower(1);
+            launchVelocity=960;
         }
-
         else if(gamepad2.dpad_right) {
-            if(launchPower < 0.75) {
-                launchPower += 0.0005;
-            }
+            launchLeft.setPower(1);
+            launchRight.setPower(1);
+            launchVelocity=1000;
         }
         else if (gamepad2.dpad_left) {
-            launchPower -= 0.0005;
+            launchLeft.setPower(1);
+            launchRight.setPower(1);
+            launchVelocity=1000;
         }
-
-        if(gamepad2.y) {
-            launchPower = 0.4;
-            //Was 0.387
-        }
-        else if(gamepad2.b){
-            launchPower = 0.42;
-        }
+        launchLeft.setVelocity(launchVelocity);
+        launchRight.setVelocity(launchVelocity);
 
 //        if(gamepad2.a){
 //            strafeLeftEncoder(19.0, 1.0);
@@ -335,13 +348,7 @@ public class DB_1_7 extends OpMode {
 //            launch();
 //        }
 
-        telemetry.addData("launchPower",launchPower);
-        launchLeft.setPower(-(launchPower - (gamepad2.left_trigger / 2)));
-        launchRight.setPower((launchPower - (gamepad2.left_trigger / 2)));
-
         if(!gamepad2.y) {
-            launchLeft.setPower(-(launchPower - (gamepad1.left_trigger / 2)));
-            launchRight.setPower((launchPower - (gamepad1.left_trigger / 2)));
             if(gamepad2.x || gamepad1.x) {
                 pusherPos = 0.2;
             } else {
@@ -360,14 +367,22 @@ public class DB_1_7 extends OpMode {
         }
 
         if(gamepad2.right_stick_y < 0.5){
-            grabberPos+=9;
+            grabberPos+=4;
             grabber.setTargetPosition((int)(grabberPos));
 
         }
         if(gamepad2.right_stick_y > -0.5){
-            grabberPos-=9;
+            grabberPos-=4;
             grabber.setTargetPosition((int)(grabberPos));
         }
+        /*if(gamepad2.right_stick_y > 0.5 || gamepad2.right_stick_y > -0.5){
+            grabber.setPower(1);
+            grabber.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        else{
+            grabber.setPower(0);
+            grabber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        }*/
         grabber.setPower(1);
         grabber.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
@@ -391,7 +406,7 @@ public class DB_1_7 extends OpMode {
     public void updateLeftDist(){
         readLeftDist=leftDist.getDistance(DistanceUnit.CM);
 //        telemetry.addData("Left Dist, ",readLeftDist);
-        telemetry.update();
+        //telemetry.update();
     }
 
     public void updateDist(){
@@ -403,7 +418,7 @@ public class DB_1_7 extends OpMode {
 //        telemetry.addData("Right Dist, ",readRightDist);
 //        telemetry.addData("Left Dist, ",readLeftDist);
 //        telemetry.addData("Front Dist, ",readFrontDist);
-        telemetry.update();
+        //telemetry.update();
     }
     public void zeroBotEncoder(double MotorPower){
         double newAngle = getAngle();
@@ -411,12 +426,12 @@ public class DB_1_7 extends OpMode {
 
         telemetry.addData("New ",newAngle);
         telemetry.addData("Diff ",Math.abs(newAngle - initialAngle));
-        telemetry.update();
+        //telemetry.update();
         while (Math.abs(newAngle - initialAngle) > 1){
             telemetry.addData("Zerobot Adj Initial ",initialAngle);
             telemetry.addData("New ",newAngle);
             telemetry.addData("Diff ",Math.abs(newAngle - initialAngle));
-            telemetry.update();
+            //telemetry.update();
             newAngle = getAngle();
             ///*** Better to come up with a formula for how long to turn based on difference in the angle
             //** ie how many degress would rightTurn(0.1) get me and calculate value based on Math.abs(newAngle - initialAngle)
