@@ -45,11 +45,6 @@ public class DB_Velocity extends OpMode {
     private DcMotorEx launchLeft = null;
     private DcMotorEx launchRight = null;
 
-    private boolean running = true;
-    private boolean pressed = false;
-
-    private boolean latched = false;
-
     private double pusherPos = 0.35;
     private Servo pusher = null;
 
@@ -78,7 +73,7 @@ public class DB_Velocity extends OpMode {
     protected DistanceSensor rightDist;
     protected double readRightDist;
 
-    protected double savedRightDist;
+    /*protected double savedRightDist;
     protected double savedLeftDist;
     protected double savedFrontDist;
     protected double savedBackDist;
@@ -86,7 +81,7 @@ public class DB_Velocity extends OpMode {
     protected double idealRightWall=74.6;
     protected double idealLeftWall=123.9;
     protected double idealFrontWall=209.0;
-    protected double idealBackWall=109.8;
+    protected double idealBackWall=109.8;*/
 
     protected double launchVelocity = 1020;
 
@@ -112,16 +107,16 @@ public class DB_Velocity extends OpMode {
         latch=hardwareMap.get(Servo.class,"latch");
 
         backDist=hardwareMap.get(DistanceSensor.class, "backDist");
-        readBackDist=backDist.getDistance(DistanceUnit.CM);
+        //readBackDist=backDist.getDistance(DistanceUnit.CM);
 
         rightDist=hardwareMap.get(DistanceSensor.class, "rightDist");
-        readRightDist=backDist.getDistance(DistanceUnit.CM);
+        //readRightDist=backDist.getDistance(DistanceUnit.CM);
 
         frontDist=hardwareMap.get(DistanceSensor.class, "frontDist");
-        readFrontDist=backDist.getDistance(DistanceUnit.CM);
+        //readFrontDist=backDist.getDistance(DistanceUnit.CM);
 
         leftDist=hardwareMap.get(DistanceSensor.class, "leftDist");
-        readLeftDist=backDist.getDistance(DistanceUnit.CM);
+        //readLeftDist=backDist.getDistance(DistanceUnit.CM);
 
         frontLeft.setDirection(DcMotor.Direction.FORWARD);
         backLeft.setDirection(DcMotor.Direction.FORWARD);
@@ -139,13 +134,13 @@ public class DB_Velocity extends OpMode {
 
         //**** The IMU and associated variables ************
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.mode                = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled      = false;
+        parameters.mode                 = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit            = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit            = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled       = false;
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-        initialAngle = getAngle();
+        //initialAngle = getAngle();
         telemetry.addData("Status", "Initialized");
 
         launchLeft.setPower(1);
@@ -163,8 +158,8 @@ public class DB_Velocity extends OpMode {
     public void start() {
         runtime.reset();
         pusher.setPosition(pusherPos);
-        grabber.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        grabber.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        grabber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        //grabber.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
@@ -190,7 +185,7 @@ public class DB_Velocity extends OpMode {
         }
         telemetry.addData("Left Velocity: ", launchLeft.getVelocity());
         telemetry.addData("Right Velocity: ", launchRight.getVelocity());
-        telemetry.update();
+        //telemetry.update();
 
         // <Driver 1>
 
@@ -203,15 +198,9 @@ public class DB_Velocity extends OpMode {
 
         if(gamepad1.right_trigger >= 0.2) {
             DriveSpeed=0.35;
-        }
-        else{
+        }else{
             DriveSpeed=1;
         }
-
-        frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         frontLeft.setPower((norm - yaw + strafe)*DriveSpeed);
         backLeft.setPower(-(-norm + yaw + strafe)*DriveSpeed);
@@ -300,15 +289,13 @@ public class DB_Velocity extends OpMode {
                 double moveDist = readBackDist - savedBackDist;
                 reverseEncoder(moveDist, 1);
             }
-            zeroBotEncoder(1);*/
-        //}
+            zeroBotEncoder(1);
 
-        if(gamepad1.a){
-            reverseEncoder(20, 1);
-        }
-        if(gamepad1.b){
-            strafeRightEncoder(20, 1);
-        }
+            frontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            backLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            frontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            backRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }*/
 
 
         // <Driver 2>
@@ -348,7 +335,7 @@ public class DB_Velocity extends OpMode {
 //            launch();
 //        }
 
-        if(!gamepad2.y) {
+        /*if(!gamepad2.y) {
             if(gamepad2.x || gamepad1.x) {
                 pusherPos = 0.2;
             } else {
@@ -364,37 +351,44 @@ public class DB_Velocity extends OpMode {
             } else {
                 intake.setPower(0);
             }
+        }*/
+        if(gamepad1.x || gamepad2.x) {
+            pusherPos = 0.2;
+        } else {
+            pusherPos = 0.35;
         }
+        pusher.setPosition(pusherPos);
+
+        if(!gamepad2.left_bumper && !gamepad1.left_bumper) {
+            if(gamepad2.right_bumper) {
+                intake.setPower(-0.5);
+            } else {
+                intake.setPower(1);
+            }
+        } else {
+            intake.setPower(0);
+        }
+
 
         if(gamepad2.right_stick_y < 0.5){
             grabberPos+=4;
             grabber.setTargetPosition((int)(grabberPos));
-
         }
+
         if(gamepad2.right_stick_y > -0.5){
             grabberPos-=4;
             grabber.setTargetPosition((int)(grabberPos));
         }
-        /*if(gamepad2.right_stick_y > 0.5 || gamepad2.right_stick_y > -0.5){
-            grabber.setPower(1);
-            grabber.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-        else{
-            grabber.setPower(0);
-            grabber.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        }*/
         grabber.setPower(1);
         grabber.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
 
         if(gamepad2.left_trigger>0.05){
             latch.setPosition(0.95);
         } else {
             latch.setPosition(0.6);
         }
-
-        if(gamepad2.right_stick_button){
-            //wobble
-        }
+        telemetry.update();
     }
 
     /*
@@ -405,8 +399,6 @@ public class DB_Velocity extends OpMode {
 
     public void updateLeftDist(){
         readLeftDist=leftDist.getDistance(DistanceUnit.CM);
-//        telemetry.addData("Left Dist, ",readLeftDist);
-        //telemetry.update();
     }
 
     public void updateDist(){
@@ -414,11 +406,6 @@ public class DB_Velocity extends OpMode {
         readRightDist=rightDist.getDistance(DistanceUnit.CM);
         readFrontDist=frontDist.getDistance(DistanceUnit.CM);
         readLeftDist=leftDist.getDistance(DistanceUnit.CM);
-//        telemetry.addData("Back Dist, ",readBackDist);
-//        telemetry.addData("Right Dist, ",readRightDist);
-//        telemetry.addData("Left Dist, ",readLeftDist);
-//        telemetry.addData("Front Dist, ",readFrontDist);
-        //telemetry.update();
     }
     public void zeroBotEncoder(double MotorPower){
         double newAngle = getAngle();
@@ -444,8 +431,7 @@ public class DB_Velocity extends OpMode {
         }
 
     }
-    public double getAngle()
-    {
+    public double getAngle(){
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         double deltaAngle = angles.firstAngle - lastAngles.firstAngle;
         if (deltaAngle < -180)
@@ -457,11 +443,12 @@ public class DB_Velocity extends OpMode {
 
         return globalAngle;
     }
+
     public void leftEncoder(double pos, double MotorPower){
-        frontLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        backLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        frontRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        backRight.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         frontRight.setTargetPosition((int)(pos*countPerRotation));
         frontLeft.setTargetPosition((int)(pos*countPerRotation));
@@ -478,9 +465,13 @@ public class DB_Velocity extends OpMode {
         backRight.setPower(MotorPower);
         backLeft.setPower(MotorPower);
 
-        while (frontLeft.isBusy()){
-
-        }
+        /*while (frontLeft.isBusy()){
+            *****                                        *****
+            *****                                        *****
+            SOURCE OF AUTONOMOUS MOVEMENT DISCONNECTS- NOT ALL
+            *****                                        *****
+            *****                                        *****
+        }*/
     }
     public void strafeLeftEncoder(double pos, double MotorPower){
         frontLeft.setMode(DcMotor.RunMode.RESET_ENCODERS);
