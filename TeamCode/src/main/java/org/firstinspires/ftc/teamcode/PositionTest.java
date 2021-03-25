@@ -32,9 +32,32 @@ public class PositionTest extends AutonomousPrime2020 {
         zeroBotEncoder(0.25);
         pause(0.75);*/
 
+        latch.setPosition(0);
+        pause(1.5);
+        latch.setPosition(0.1);
+        pause(1.5);
+        latch.setPosition(0.2);
+        pause(1.5);
+        latch.setPosition(0.3);
+        pause(1.5);
+        latch.setPosition(0.4);
+        pause(1.5);
+        latch.setPosition(0.5);
+        pause(1.5);
+        latch.setPosition(0.6);
+        pause(1.5);
+        latch.setPosition(0.7);
+        pause(1.5);
+        latch.setPosition(0.8);
+        pause(1.5);
+        latch.setPosition(0.9);
+        pause(1.5);
+        latch.setPosition(1);
+        pause(1.5);
 
-        velocitySpin(1, 1060);
-        while(opModeIsActive()){
+
+        //velocitySpin(1, 1060);
+        /*while(opModeIsActive()){
             telemetry.addData("Right Launch Wheel: ", launchRight.getVelocity());
             telemetry.addData("Left Launch Wheel: ", launchLeft.getVelocity());
             telemetry.update();
@@ -43,7 +66,7 @@ public class PositionTest extends AutonomousPrime2020 {
             if((launchLeftVelocity<=1080 && launchLeftVelocity>=1040) && (launchRightVelocity<=1080 && launchRightVelocity>=1040)){
                 telemetry.addData("Ready to spin at: ", launchLeftVelocity);
             }
-        }
+        }*/
 
 
         /*updateDist();

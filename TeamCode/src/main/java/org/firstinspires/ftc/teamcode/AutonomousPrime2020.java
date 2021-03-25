@@ -158,8 +158,21 @@ public class AutonomousPrime2020 extends LinearOpMode {
 
         launchLeft.setPower(MotorPower);
         launchRight.setPower(MotorPower);
-        launchLeft.setVelocity(Velocity);
+        launchLeft.setVelocity(Velocity-20);
         launchRight.setVelocity(Velocity);
+    }
+
+    public void safeLaunch(double Velocity){
+        double launchLeftVelocity = Velocity-20;
+        double launchRightVelocity = Velocity;
+        while(opModeIsActive()) {
+            if (!((launchLeft.getVelocity() >= launchLeftVelocity - 20 && launchLeft.getVelocity() <= launchLeftVelocity + 20) && (launchRight.getVelocity() >= launchRightVelocity - 20 && launchRight.getVelocity() <= launchRightVelocity + 20))) {
+                sleep(5);
+            } else {
+                launchAdvanceFast();
+                break;
+            }
+        }
     }
 
 
@@ -374,11 +387,11 @@ public class AutonomousPrime2020 extends LinearOpMode {
         }*/
     }
     public void wobbleLatch(){
-        latch.setPosition(0);
+        latch.setPosition(0.95);
         pause(0.5);
     }
     public void wobbleLatchRelease(){
-        latch.setPosition(0.3);
+        latch.setPosition(0.4);
         //pause(0.5);
     }
     /*public void reverseEncoderArm(double pos, double MotorPower){

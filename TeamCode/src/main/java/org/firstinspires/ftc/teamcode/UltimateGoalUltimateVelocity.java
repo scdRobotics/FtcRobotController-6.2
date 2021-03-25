@@ -12,8 +12,8 @@ import java.util.List;
 
 // TODO: Add distance sensor checks to high goal & two other power shots; eventually, wobble delivery for 4 rings
 
-@Autonomous(name="--TestAuto--", group="linearOpMode")
-public class UltimateGoalUltimateFast extends AutonomousPrime2020 {
+@Autonomous(name="--AutoVelocity--", group="linearOpMode")
+public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
     private static final String LABEL_SECOND_ELEMENT = "Single";
@@ -58,30 +58,36 @@ public class UltimateGoalUltimateFast extends AutonomousPrime2020 {
                      */
                     wobbleLock(); //Servo locks to wobble
                     intakeAdvance.setPosition(0.35); //Set intake advance arm to neutral position
-                    startLaunch(0.387); //Start spinning launch wheels
-                    //Was 0.42
+                    velocitySpin(1, 1000);
                     forwardEncoder(160, 1); //Approach first PS
                     zeroBotEncoder(1); //Zero angle
-                    updateDist(); //Get updated distances
-                    double rightWallDist=readRightDist-125; //Calculate how much & what direction to move in
-                    //Was 115, 135
-                    strafeRightEncoder(rightWallDist, 0.5); //Move the distance above
+                    //updateDist(); //Get updated distances
+                    for(int i = 0; i<=2; i++) {
+                        updateDist();
+                        double rightWallDist = readRightDist - 105; //Calculate how much & what direction to move in
+                        //Was 125, 105
+                        strafeRightEncoder(rightWallDist, 0.5); //Move the distance above
+                        pause(0.5);
+                        zeroBotEncoder(0.5);
+                        pause(0.5);
+                    }
+                    zeroBotEncoder(1);
                     launchAdvanceFast(); //Hit first PS
-                    strafeLeftEncoder(25, 1); //Strafe to second PS
+                    strafeLeftEncoder(25, 0.5); //Strafe to second PS
                     zeroBotEncoder(1); //Zero angle
                     pause(0.1); //Pause for arm to move
-                    launchAdvanceFast(); //Hit second PS
-                    strafeLeftEncoder(20, 1); //Strafe to third PS
+                    safeLaunch(1000); //Hit second PS
+                    strafeLeftEncoder(20, 0.5); //Strafe to third PS
                     zeroBotEncoder(1); //Zero angle
                     pause(0.1); //Pause for launch arm to move
-                    launchAdvanceFast(); //Hit third PS
+                    safeLaunch(1000); //Hit third PS
                     /*
                     DELIVER WOBBLE
                      */
                     forwardEncoder(20, 1); //Move forward to be in line with zone
                     pause(0.2); //Pause in between movements to avoid extreme slippage
-                    strafeRightEncoder(122, 1); //Strafe right to zone
-                    //Was 112
+                    strafeRightEncoder(112, 1); //Strafe right to zone
+                    //Was 122
                     pause(0.2); //Pause in between movements to avoid extreme slippage
                     wobbleRelease(); //Release wobble
                     pause(0.75); //Pause for wobble to drop
@@ -90,13 +96,15 @@ public class UltimateGoalUltimateFast extends AutonomousPrime2020 {
                      */
                     zeroBotEncoder(1); //Zero angle
                     wobbleGrabDown(1); //Move wobble arm down
-                    reverseEncoder(115, 0.5); //Move back towards second wobble
+                    wobbleLatchRelease();
+                    reverseEncoder(100, 0.5); //Move back towards second wobble
+                    //Was 115
                     double count = 0; //Set counting variable for loop
                     while(readRightDist>=10 && readBackDist >=30) { //When the wobble is detected (With a failsafe to avoid being too close to the wall)
                         strafeRightEncoder(3, 1); //Strafe right in small increments
                         updateDist(); //Update distance sensor values
                         count++; //Increase the count variable
-                        if(count==13){ //If you've strafed 13 times (missed the wobble)...
+                        if(count==5){ //If you've strafed 5 times (missed the wobble)...
                             break; //...then break out of the loop
                         }
                     }
@@ -107,8 +115,10 @@ public class UltimateGoalUltimateFast extends AutonomousPrime2020 {
                      */
                     pause(1); //Pause for grabbing the wobble
                     wobbleGrabUp(1); //Move the arm up
-                    forwardEncoder(85, 1); //Move towards the zone
-                    rightEncoder(180, 1); //Turn to drop the wobble
+                    forwardEncoder(75, 1); //Move towards the zone
+                    //Was 85
+                    rightEncoder(170, 0.65); //Turn to drop the wobble
+                    //Was 180 and 1 MP
                     wobbleLatchRelease(); //Drop the wobble
                     forwardEncoder(20, 1); //Go forward to release the wobble
                     strafeRightEncoder(50, 1); //Strafe to park away from the wobble
@@ -116,47 +126,53 @@ public class UltimateGoalUltimateFast extends AutonomousPrime2020 {
                     pause(100); //Pause so that the program does not run again
                 }
                 else if (labelName.equals("Single")){ //ONE RING
-                    /*
-                    HIT 3 PS
-                     */
                     wobbleLock(); //Servo locks to wobble
                     intakeAdvance.setPosition(0.35); //Set intake advance arm to neutral position
-                    startLaunch(0.4); //Start spinning launch wheels
-                    //Was 0.387
+                    velocitySpin(1, 1000);
                     forwardEncoder(160, 1); //Approach first PS
                     zeroBotEncoder(1); //Zero angle
-                    updateDist(); //Get updated distances
-                    double rightWallDist=readRightDist-125; //Calculate how much & what direction to move in
-                    //Was 115, 135
-                    strafeRightEncoder(rightWallDist, 0.5); //Move the distance above
+                    //updateDist(); //Get updated distances
+                    for(int i = 0; i<=1; i++) {
+                        updateDist();
+                        double rightWallDist = readRightDist - 105; //Calculate how much & what direction to move in
+                        //Was 125, 105
+                        strafeRightEncoder(rightWallDist, 0.5); //Move the distance above
+                        pause(0.1);
+                        //Was 0.25
+                        zeroBotEncoder(0.5);
+                        pause(0.1);
+                        //Was 0.25
+                    }
+                    zeroBotEncoder(1);
                     launchAdvanceFast(); //Hit first PS
-                    strafeLeftEncoder(25, 1); //Strafe to second PS
+                    strafeLeftEncoder(25, 0.5); //Strafe to second PS
                     zeroBotEncoder(1); //Zero angle
                     pause(0.1); //Pause for arm to move
-                    launchAdvanceFast(); //Hit second PS
-                    strafeLeftEncoder(20, 1); //Strafe to third PS
+                    safeLaunch(1000); //Hit second PS
+                    strafeLeftEncoder(20, 0.5); //Strafe to third PS
                     zeroBotEncoder(1); //Zero angle
                     pause(0.1); //Pause for launch arm to move
-                    launchAdvanceFast(); //Hit third PS
+                    safeLaunch(1000); //Hit third PS
                     /*
                     DELIVER WOBBLE
                      */
                     wobbleGrabDown(1); //Move wobble arm down
+                    wobbleLatchRelease();
                     forwardEncoder(75, 1); //Move forward to be in line with zone
                     pause(0.1); //Pause in between movements to avoid extreme slippage
-                    strafeRightEncoder(60, 1); //Strafe right to zone
-                    //Was 50
+                    strafeRightEncoder(40, 1); //Strafe right to zone
+                    //Was 60
                     wobbleRelease(); //Release wobble
                     /*
-                    SHOOT GROUND RINGS
+                    SHOOT GROUND RING
                      */
+                    zeroBotEncoder(1);
                     intakeStart(1); //Start intake wheels
-                    startLaunch(0.4105); //Start launch wheels at a different power
                     //Was 0.45
                     reverseEncoder(50, 1); //Move away from wobble
                     pause(0.1); //Pause in between movements to avoid extreme slippage
                     updateDist(); //Update distance sensor values
-                    rightWallDist=readRightDist-72; //Calculate how much to move
+                    double rightWallDist=readRightDist-72; //Calculate how much to move
                     rightWallDist=Math.abs(rightWallDist); //Absolute value the distance- since we know we always will be too far left
                     strafeRightEncoder(rightWallDist, 0.5); //Move the distance above
                     pause(0.1); //Pause in between movements to avoid extreme slippage
@@ -177,7 +193,8 @@ public class UltimateGoalUltimateFast extends AutonomousPrime2020 {
                         strafeRightEncoder(rightWallDist, 0.5); //Move the distance above
                     }
                     pause(0.1); //Pause in between movements to avoid extreme slippage
-                    reverseEncoder(37, 1); //Reverse closer to wobble
+                    reverseEncoder(27, 1); //Reverse closer to wobble
+                    //Was 37
                     updateDist(); //Update distance sensor values
                     double count = 0; //Set counting variable for loop
                     while(readRightDist>=10 && readBackDist >=30){ //When the wobble is detected (With a failsafe to avoid being too close to the wall)
@@ -188,8 +205,8 @@ public class UltimateGoalUltimateFast extends AutonomousPrime2020 {
                             break; //...then break out of the loop
                         }
                     }
-                    reverseEncoder(5, 0.25); //Go back to get grip on wobble
-                    strafeRightEncoder(1, 1); //Strafe to ensure hook latches
+                    //reverseEncoder(5, 0.25); //Go back to get grip on wobble
+                    //strafeRightEncoder(1, 1); //Strafe to ensure hook latches
                     wobbleLatch(); //Grab the wobble
                     /*
                     DELIVER SECOND WOBBLE
@@ -197,10 +214,13 @@ public class UltimateGoalUltimateFast extends AutonomousPrime2020 {
                     wobbleGrabUp(1); //Move the arm up
                     forwardEncoder(145, 1); //Move towards the zone
                     pause(0.1); //Pause in between movements to avoid extreme slippage
-                    rightEncoder(120, 1); //Turn to drop the wobble
+                    rightEncoder(120, 0.65); //Turn to drop the wobble
+                    //Was 1 MP
+                    reverseEncoder(10, 1);
                     wobbleLatchRelease(); //Drop the wobble
-                    forwardEncoder(10, 1); //Go forward to release the wobble & secure parking
-                    wobbleGrabUpLarge(1); //Move arm up to make sure hook isn't still caught
+                    pause(0.5);
+                    forwardEncoder(20, 1); //Go forward to release the wobble & secure parking
+                    //wobbleGrabUpLarge(1); //Move arm up to make sure hook isn't still caught
                     pause(100); //Pause so that the program does not run again
                 }
                 else if (labelName.equals("Quad")){ //FOUR RINGS
