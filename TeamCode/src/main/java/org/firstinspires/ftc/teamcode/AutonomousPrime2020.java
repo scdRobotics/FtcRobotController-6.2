@@ -195,7 +195,7 @@ public class AutonomousPrime2020 extends LinearOpMode {
         telemetry.addData("New ",newAngle);
         telemetry.addData("Diff ",Math.abs(newAngle - initialAngle));
         telemetry.update();
-        while (Math.abs(newAngle - initialAngle) > 5 && opModeIsActive()){
+        while (Math.abs(newAngle - initialAngle) > 3 && opModeIsActive()){ //was >5
             telemetry.addData("Zerobot Adj Initial ",initialAngle);
             telemetry.addData("New ",newAngle);
             telemetry.addData("Diff ",Math.abs(newAngle - initialAngle));

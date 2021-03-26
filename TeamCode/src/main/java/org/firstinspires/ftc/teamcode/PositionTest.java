@@ -32,7 +32,52 @@ public class PositionTest extends AutonomousPrime2020 {
         zeroBotEncoder(0.25);
         pause(0.75);*/
 
-        latch.setPosition(0);
+        wobbleLock(); //Servo locks to wobble
+        intakeAdvance.setPosition(0.35); //Set intake advance arm to neutral position
+        velocitySpin(1, 1000);
+        forwardEncoder(160, 1); //Approach first PS
+        zeroBotEncoder(1); //Zero angle
+        //updateDist(); //Get updated distances
+        for(int i = 0; i<3; i++) {
+            updateRightDist();
+            double rightWallDist = readRightDist - 105; //Calculate how much & what direction to move in
+            //Was 125, 105
+            strafeRightEncoder(rightWallDist, 0.5); //Move the distance above
+            pause(0.5);
+            zeroBotEncoder(0.5);
+            pause(0.5);
+        }
+        zeroBotEncoder(1);
+        launchAdvanceFast(); //Hit first PS
+
+        updateLeftDist();
+        double leftWallDistFirst = readLeftDist-78;
+        strafeLeftEncoder(leftWallDistFirst, 0.5);
+        zeroBotEncoder(1); //Zero angle
+        pause(0.1); //Pause for launch arm to move
+        safeLaunch(1000); //Hit second PS
+
+        updateLeftDist();
+        double leftWallDistSecond = readLeftDist-65;
+        strafeLeftEncoder(leftWallDistSecond, 0.5);
+        zeroBotEncoder(1); //Zero angle
+        pause(0.1); //Pause for launch arm to move
+        safeLaunch(1000); //Hit third PS
+
+        /*strafeLeftEncoder(20, 0.5); //Strafe to third PS
+        zeroBotEncoder(1); //Zero angle
+        pause(0.1); //Pause for launch arm to move
+        safeLaunch(1000); //Hit third PS
+
+        updateDist();
+        double readRightDistSecond = readRightDist;
+        double readLeftDistSecond = readLeftDist;
+        telemetry.addData("Third Right Dist: ", readRightDistSecond);
+        telemetry.addData("Third Left Dist: ", readLeftDistSecond);
+        telemetry.update();
+        pause(100);*/
+
+        /*latch.setPosition(0);
         pause(1.5);
         latch.setPosition(0.1);
         pause(1.5);
@@ -53,7 +98,7 @@ public class PositionTest extends AutonomousPrime2020 {
         latch.setPosition(0.9);
         pause(1.5);
         latch.setPosition(1);
-        pause(1.5);
+        pause(1.5);*/
 
 
         //velocitySpin(1, 1060);

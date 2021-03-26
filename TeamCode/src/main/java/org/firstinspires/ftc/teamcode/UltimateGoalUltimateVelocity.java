@@ -62,22 +62,30 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     forwardEncoder(160, 1); //Approach first PS
                     zeroBotEncoder(1); //Zero angle
                     //updateDist(); //Get updated distances
-                    for(int i = 0; i<=2; i++) {
-                        updateDist();
-                        double rightWallDist = readRightDist - 105; //Calculate how much & what direction to move in
+                    for(int i = 0; i<3; i++) {
+                        updateRightDist();
+                        double rightWallDist = readRightDist - 115; //Calculate how much & what direction to move in
+                        //Was 105
                         //Was 125, 105
                         strafeRightEncoder(rightWallDist, 0.5); //Move the distance above
-                        pause(0.5);
+                        pause(0.25);
                         zeroBotEncoder(0.5);
-                        pause(0.5);
+                        //pause(0.5);
                     }
                     zeroBotEncoder(1);
                     launchAdvanceFast(); //Hit first PS
-                    strafeLeftEncoder(25, 0.5); //Strafe to second PS
+
+                    updateLeftDist();
+                    double leftWallDistFirst = readLeftDist-78;
+                    strafeLeftEncoder(leftWallDistFirst, 0.5);
                     zeroBotEncoder(1); //Zero angle
-                    pause(0.1); //Pause for arm to move
+                    pause(0.1); //Pause for launch arm to move
                     safeLaunch(1000); //Hit second PS
-                    strafeLeftEncoder(20, 0.5); //Strafe to third PS
+
+                    updateLeftDist();
+                    double leftWallDistSecond = readLeftDist-62;
+                    //Was 65
+                    strafeLeftEncoder(leftWallDistSecond, 0.5);
                     zeroBotEncoder(1); //Zero angle
                     pause(0.1); //Pause for launch arm to move
                     safeLaunch(1000); //Hit third PS
@@ -97,8 +105,8 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     zeroBotEncoder(1); //Zero angle
                     wobbleGrabDown(1); //Move wobble arm down
                     wobbleLatchRelease();
-                    reverseEncoder(100, 0.5); //Move back towards second wobble
-                    //Was 115
+                    reverseEncoder(107, 0.5); //Move back towards second wobble
+                    //Was 115, 100
                     double count = 0; //Set counting variable for loop
                     while(readRightDist>=10 && readBackDist >=30) { //When the wobble is detected (With a failsafe to avoid being too close to the wall)
                         strafeRightEncoder(3, 1); //Strafe right in small increments
@@ -115,8 +123,8 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                      */
                     pause(1); //Pause for grabbing the wobble
                     wobbleGrabUp(1); //Move the arm up
-                    forwardEncoder(75, 1); //Move towards the zone
-                    //Was 85
+                    forwardEncoder(82, 1); //Move towards the zone
+                    //Was 85, 75
                     rightEncoder(170, 0.65); //Turn to drop the wobble
                     //Was 180 and 1 MP
                     wobbleLatchRelease(); //Drop the wobble
@@ -132,24 +140,30 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     forwardEncoder(160, 1); //Approach first PS
                     zeroBotEncoder(1); //Zero angle
                     //updateDist(); //Get updated distances
-                    for(int i = 0; i<=1; i++) {
-                        updateDist();
-                        double rightWallDist = readRightDist - 105; //Calculate how much & what direction to move in
+                    for(int i = 0; i<3; i++) {
+                        updateRightDist();
+                        double rightWallDist = readRightDist - 115; //Calculate how much & what direction to move in
+                        //Was 105
                         //Was 125, 105
                         strafeRightEncoder(rightWallDist, 0.5); //Move the distance above
-                        pause(0.1);
-                        //Was 0.25
+                        pause(0.25);
                         zeroBotEncoder(0.5);
-                        pause(0.1);
-                        //Was 0.25
+                        //pause(0.5);
                     }
                     zeroBotEncoder(1);
                     launchAdvanceFast(); //Hit first PS
-                    strafeLeftEncoder(25, 0.5); //Strafe to second PS
+
+                    updateLeftDist();
+                    double leftWallDistFirst = readLeftDist-78;
+                    strafeLeftEncoder(leftWallDistFirst, 0.5);
                     zeroBotEncoder(1); //Zero angle
-                    pause(0.1); //Pause for arm to move
+                    pause(0.1); //Pause for launch arm to move
                     safeLaunch(1000); //Hit second PS
-                    strafeLeftEncoder(20, 0.5); //Strafe to third PS
+
+                    updateLeftDist();
+                    double leftWallDistSecond = readLeftDist-62;
+                    //Was 65
+                    strafeLeftEncoder(leftWallDistSecond, 0.5);
                     zeroBotEncoder(1); //Zero angle
                     pause(0.1); //Pause for launch arm to move
                     safeLaunch(1000); //Hit third PS
