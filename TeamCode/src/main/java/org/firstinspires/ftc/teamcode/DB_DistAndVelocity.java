@@ -239,34 +239,34 @@ public class DB_DistAndVelocity extends OpMode {
 
 
 
-        /*if (gamepad1.dpad_left){
+        if (gamepad1.dpad_left){
             initialAngle = getAngle();
-        }*/
+        }
         if(gamepad1.dpad_right){
-            //zeroBotEncoder(1);
+            zeroBotEncoder(1);
             updateDist();
 
             if(readFrontDist> 500){
                 double moveForwardDist = readBackDist-idealBackWall;
                 forwardEncoder(moveForwardDist,1);
-                //zeroBotEncoder(1);
+                zeroBotEncoder(1);
             }
             else{
                 double moveBackDist = idealFrontWall-readFrontDist;
                 reverseEncoder(moveBackDist,1);
-                //zeroBotEncoder(1);
+                zeroBotEncoder(1);
             }
             updateDist();
 
             if(readLeftDist>500){
                 double moveLeftDist= readRightDist-idealRightWall;
                 strafeLeftEncoder(moveLeftDist,1);
-                //zeroBotEncoder(1);
+                zeroBotEncoder(1);
             }
             else {
                 double moveRightDist = readLeftDist-idealLeftWall;
                 strafeRightEncoder(moveRightDist,1);
-                //zeroBotEncoder(1);
+                zeroBotEncoder(1);
             }
 
             /*pusher.setPosition(0.2);

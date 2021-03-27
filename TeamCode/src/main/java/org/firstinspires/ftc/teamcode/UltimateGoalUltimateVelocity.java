@@ -136,7 +136,7 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                 else if (labelName.equals("Single")){ //ONE RING
                     wobbleLock(); //Servo locks to wobble
                     intakeAdvance.setPosition(0.35); //Set intake advance arm to neutral position
-                    velocitySpin(1, 1000);
+                    velocitySpin(1, 960);
                     forwardEncoder(160, 1); //Approach first PS
                     zeroBotEncoder(1); //Zero angle
                     //updateDist(); //Get updated distances
@@ -158,7 +158,7 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     strafeLeftEncoder(leftWallDistFirst, 0.5);
                     zeroBotEncoder(1); //Zero angle
                     pause(0.1); //Pause for launch arm to move
-                    safeLaunch(1000); //Hit second PS
+                    safeLaunch(960); //Hit second PS
 
                     updateLeftDist();
                     double leftWallDistSecond = readLeftDist-62;
@@ -166,10 +166,11 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     strafeLeftEncoder(leftWallDistSecond, 0.5);
                     zeroBotEncoder(1); //Zero angle
                     pause(0.1); //Pause for launch arm to move
-                    safeLaunch(1000); //Hit third PS
+                    safeLaunch(960); //Hit third PS
                     /*
                     DELIVER WOBBLE
                      */
+                    velocitySpin(1, 1020);
                     wobbleGrabDown(1); //Move wobble arm down
                     wobbleLatchRelease();
                     forwardEncoder(75, 1); //Move forward to be in line with zone
@@ -185,14 +186,21 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     //Was 0.45
                     reverseEncoder(50, 1); //Move away from wobble
                     pause(0.1); //Pause in between movements to avoid extreme slippage
-                    updateDist(); //Update distance sensor values
+                    /*updateDist(); //Update distance sensor values
                     double rightWallDist=readRightDist-72; //Calculate how much to move
                     rightWallDist=Math.abs(rightWallDist); //Absolute value the distance- since we know we always will be too far left
-                    strafeRightEncoder(rightWallDist, 0.5); //Move the distance above
-                    pause(0.1); //Pause in between movements to avoid extreme slippage
+                    strafeRightEncoder(rightWallDist, 0.5); //Move the distance above*/
+                    strafeRightEncoder(25, 1);
+                    pause(0.1);
                     reverseEncoder(80, 1); //Move back to intake ring
                     zeroBotEncoder(1); //Zero angle
-                    pause(0.5); //Pause to have time for intake
+                    updateDist(); //Update distance sensor values
+                    double rightWallDist=readRightDist-67; //Calculate how much to move
+                    //Was 72
+                    rightWallDist=Math.abs(rightWallDist); //Absolute value the distance- since we know we always will be too far left
+                    strafeRightEncoder(rightWallDist, 0.5); //Move the distance above
+                    zeroBotEncoder(1);
+                    pause(0.1); //Pause to have time for intake
                     launchAdvanceFast(); //Shoot into high goal
                     /*
                     WOBBLE PICKUP

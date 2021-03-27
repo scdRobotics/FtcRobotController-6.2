@@ -10,6 +10,15 @@ public class PositionTest extends AutonomousPrime2020 {
         mapObjects();
         waitForStart();
 
+        while(opModeIsActive()){
+            updateDist();
+            telemetry.addData("Left Dist: ", readLeftDist);
+            telemetry.addData("Right Dist: ", readRightDist);
+            telemetry.addData("Front Dist: ", readFrontDist);
+            telemetry.addData("Back Dist: ", readBackDist);
+            telemetry.update();
+        }
+
         //telemetry.addData("Hello!", " World!");
         //pause(10);
         /*leftEncoder(90, 0.25);
@@ -32,7 +41,7 @@ public class PositionTest extends AutonomousPrime2020 {
         zeroBotEncoder(0.25);
         pause(0.75);*/
 
-        wobbleLock(); //Servo locks to wobble
+        /*wobbleLock(); //Servo locks to wobble
         intakeAdvance.setPosition(0.35); //Set intake advance arm to neutral position
         velocitySpin(1, 1000);
         forwardEncoder(160, 1); //Approach first PS
@@ -62,7 +71,7 @@ public class PositionTest extends AutonomousPrime2020 {
         strafeLeftEncoder(leftWallDistSecond, 0.5);
         zeroBotEncoder(1); //Zero angle
         pause(0.1); //Pause for launch arm to move
-        safeLaunch(1000); //Hit third PS
+        safeLaunch(1000); //Hit third PS*/
 
         /*strafeLeftEncoder(20, 0.5); //Strafe to third PS
         zeroBotEncoder(1); //Zero angle
