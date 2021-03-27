@@ -31,9 +31,9 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@TeleOp(name = "LinearTeleOpTest", group = "Current")
+@TeleOp(name = "RTPLinearTeleop", group = "Current")
 
-public class LinearTeleOpTest extends LinearOpMode {
+public class LinearTeleOpDist extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
     private DcMotor frontLeft = null;
@@ -458,7 +458,7 @@ public class LinearTeleOpTest extends LinearOpMode {
             }
         }*/
 
-            /*if (gamepad1.dpad_left) {
+            if (gamepad1.dpad_left) {
                 initialAngle = getAngle();
             }
             if (gamepad1.dpad_right) {
@@ -528,36 +528,36 @@ public class LinearTeleOpTest extends LinearOpMode {
         }*/
 
 
-                // <Driver 2>
-                // CONTROLS:
-                // left trigger:  slow down the launcher
-                // x:             run advancer
-                // right bumper:  run intake backward
-                // y:             KILL EVERYTHING
+            // <Driver 2>
+            // CONTROLS:
+            // left trigger:  slow down the launcher
+            // x:             run advancer
+            // right bumper:  run intake backward
+            // y:             KILL EVERYTHING
 
-                if (gamepad2.dpad_up) {
-                    launchLeft.setPower(1);
-                    launchRight.setPower(1);
-                    launchRightVelocity = 1020;
-                    launchLeftVelocity = launchRightVelocity - 20;
-                } else if (gamepad2.dpad_down) {
-                    launchLeft.setPower(1);
-                    launchRight.setPower(1);
-                    launchRightVelocity = 960;
-                    launchLeftVelocity = launchRightVelocity - 20;
-                } else if (gamepad2.dpad_right) {
-                    launchLeft.setPower(1);
-                    launchRight.setPower(1);
-                    launchRightVelocity = 1000;
-                    launchLeftVelocity = launchRightVelocity - 20;
-                } else if (gamepad2.dpad_left) {
-                    launchLeft.setPower(1);
-                    launchRight.setPower(1);
-                    launchRightVelocity = 1000;
-                    launchLeftVelocity = launchRightVelocity - 20;
-                }
-                launchLeft.setVelocity(launchLeftVelocity);
-                launchRight.setVelocity(launchRightVelocity);
+            if (gamepad2.dpad_up) {
+                launchLeft.setPower(1);
+                launchRight.setPower(1);
+                launchRightVelocity = 1020;
+                launchLeftVelocity = launchRightVelocity - 20;
+            } else if (gamepad2.dpad_down) {
+                launchLeft.setPower(1);
+                launchRight.setPower(1);
+                launchRightVelocity = 960;
+                launchLeftVelocity = launchRightVelocity - 20;
+            } else if (gamepad2.dpad_right) {
+                launchLeft.setPower(1);
+                launchRight.setPower(1);
+                launchRightVelocity = 1000;
+                launchLeftVelocity = launchRightVelocity - 20;
+            } else if (gamepad2.dpad_left) {
+                launchLeft.setPower(1);
+                launchRight.setPower(1);
+                launchRightVelocity = 1000;
+                launchLeftVelocity = launchRightVelocity - 20;
+            }
+            launchLeft.setVelocity(launchLeftVelocity);
+            launchRight.setVelocity(launchRightVelocity);
 
 //        if(gamepad2.a){
 //            strafeLeftEncoder(19.0, 1.0);
@@ -583,54 +583,54 @@ public class LinearTeleOpTest extends LinearOpMode {
                 intake.setPower(0);
             }
         }*/
-                if (gamepad1.x || gamepad2.x) {
-                    pusherPos = 0.2;
-                } else {
-                    pusherPos = 0.35;
-                }
-                pusher.setPosition(pusherPos);
-
-                if (gamepad1.b || gamepad2.b) {
-                    while (opModeIsActive()) {
-                        if (!((launchLeft.getVelocity() >= launchLeftVelocity - 20 && launchLeft.getVelocity() <= launchLeftVelocity + 20) && (launchRight.getVelocity() >= launchRightVelocity - 20 && launchRight.getVelocity() <= launchRightVelocity + 20))) {
-                            sleep(5);
-                        } else {
-                            launch();
-                            break;
-                        }
-                    }
-                }
-
-                if (!gamepad2.left_bumper && !gamepad1.left_bumper) {
-                    if (gamepad2.right_bumper) {
-                        intake.setPower(-0.75);
-                    } else {
-                        intake.setPower(1);
-                    }
-                } else {
-                    intake.setPower(0);
-                }
-
-
-                if (gamepad2.right_stick_y < 0.5) {
-                    grabberPos += 4;
-                    grabber.setTargetPosition((int) (grabberPos));
-                }
-
-                if (gamepad2.right_stick_y > -0.5) {
-                    grabberPos -= 4;
-                    grabber.setTargetPosition((int) (grabberPos));
-                }
-                grabber.setPower(1);
-                grabber.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
-                if (gamepad2.left_trigger > 0.05) {
-                    latch.setPosition(0.95);
-                } else {
-                    latch.setPosition(0.6);
-                }
-                telemetry.update();
+            if (gamepad1.x || gamepad2.x) {
+                pusherPos = 0.2;
+            } else {
+                pusherPos = 0.35;
             }
+            pusher.setPosition(pusherPos);
+
+            if (gamepad1.b || gamepad2.b) {
+                while (opModeIsActive()) {
+                    if (!((launchLeft.getVelocity() >= launchLeftVelocity - 20 && launchLeft.getVelocity() <= launchLeftVelocity + 20) && (launchRight.getVelocity() >= launchRightVelocity - 20 && launchRight.getVelocity() <= launchRightVelocity + 20))) {
+                        sleep(5);
+                    } else {
+                        launch();
+                        break;
+                    }
+                }
+            }
+
+            if (!gamepad2.left_bumper && !gamepad1.left_bumper) {
+                if (gamepad2.right_bumper) {
+                    intake.setPower(-0.75);
+                } else {
+                    intake.setPower(1);
+                }
+            } else {
+                intake.setPower(0);
+            }
+
+
+            if (gamepad2.right_stick_y < 0.5) {
+                grabberPos += 4;
+                grabber.setTargetPosition((int) (grabberPos));
+            }
+
+            if (gamepad2.right_stick_y > -0.5) {
+                grabberPos -= 4;
+                grabber.setTargetPosition((int) (grabberPos));
+            }
+            grabber.setPower(1);
+            grabber.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+            if (gamepad2.left_trigger > 0.05) {
+                latch.setPosition(0.95);
+            } else {
+                latch.setPosition(0.6);
+            }
+            telemetry.update();
         }
+    }
 }
