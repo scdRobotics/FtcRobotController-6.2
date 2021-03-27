@@ -251,7 +251,7 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                      */
                     wobbleLock();
                     intakeAdvance.setPosition(0.35);
-                    startLaunch(0.45); //was 0.4105
+                    velocitySpin(1, 1020);
                     forwardEncoder(300, 1);
                     //pause(0.1);
                     strafeRightEncoder(90, 1); //Was 85
@@ -260,8 +260,6 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     /*
                     SHOOT ONBOARD RINGS
                      */
-                    //strafeLeftEncoder(30, 1);
-                    //pause(0.1);
                     reverseEncoder(150, 1);
                     pause(0.1);
                     zeroBotEncoder(1);
@@ -269,31 +267,34 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     double moveDist = 83-readRightDist; //Was 73
                     strafeLeftEncoder(moveDist, 1);
                     pause(0.1);
-                    launchAdvance();
-                    launchAdvance();
-                    launchAdvanceFast();
+                    safeLaunch(1020);
+                    pause(0.25);
+                    safeLaunch(1020);
+                    pause(0.25);
+                    safeLaunch(1020);
+                    pause(0.25);
                     /*
                     SHOOT RING STACK
                      */
                     wobbleGrabDown(0.25);
                     latch.setPosition(0.6);
-                    startLaunch(0.44);
                     intakeStart(1);
-                    //strafeRightEncoder(20, 1);
-                    //pause(0.1);
                     reverseEncoder(25, 0.5);
                     zeroBotEncoder(1);
                     pause(0.5);
-                    launchAdvanceFast();
+                    safeLaunch(1020);
                     reverseEncoder(9, 1);
-                    pause(0.15);
+                    pause(0.2);
                     reverseEncoder(9, 1);
-                    pause(0.15);
+                    pause(0.2);
                     reverseEncoder(9, 1);
-                    pause(0.15);
-                    launchAdvance();
-                    launchAdvance();
-                    launchAdvanceFast();
+                    pause(0.2);
+                    safeLaunch(1020);
+                    pause(0.25);
+                    safeLaunch(1020);
+                    pause(0.25);
+                    safeLaunch(1020);
+                    pause(0.25);
                     /*
                     PICKUP WOBBLE
                      */

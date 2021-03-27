@@ -167,7 +167,7 @@ public class AutonomousPrime2020 extends LinearOpMode {
         double launchRightVelocity = Velocity;
         while(opModeIsActive()) {
             if (!((launchLeft.getVelocity() >= launchLeftVelocity - 20 && launchLeft.getVelocity() <= launchLeftVelocity + 20) && (launchRight.getVelocity() >= launchRightVelocity - 20 && launchRight.getVelocity() <= launchRightVelocity + 20))) {
-                sleep(5);
+                pause(0.05);
             } else {
                 launchAdvanceFast();
                 break;
