@@ -158,15 +158,15 @@ public class AutonomousPrime2020 extends LinearOpMode {
 
         launchLeft.setPower(MotorPower);
         launchRight.setPower(MotorPower);
-        launchLeft.setVelocity(Velocity-20);
+        launchLeft.setVelocity(Velocity-60);
         launchRight.setVelocity(Velocity);
     }
 
     public void safeLaunch(double Velocity){
-        double launchLeftVelocity = Velocity-20;
+        double launchLeftVelocity = Velocity-60;
         double launchRightVelocity = Velocity;
         while(opModeIsActive()) {
-            if (!((launchLeft.getVelocity() >= launchLeftVelocity - 20 && launchLeft.getVelocity() <= launchLeftVelocity + 20) && (launchRight.getVelocity() >= launchRightVelocity - 20 && launchRight.getVelocity() <= launchRightVelocity + 20))) {
+            if (!(launchRight.getVelocity()==launchRightVelocity && launchLeft.getVelocity()==launchLeftVelocity)) {
                 pause(0.05);
             } else {
                 launchAdvanceFast();
@@ -342,7 +342,8 @@ public class AutonomousPrime2020 extends LinearOpMode {
     }
     public void launchAdvanceFast(){ //pause were 0.25
         intakeAdvance.setPosition(0.2);
-        pause(0.55);
+        pause(0.5);
+        //Was 0.5, 0.75
         intakeAdvance.setPosition(0.35);
     }
     public void launchAdvanceFinal(){

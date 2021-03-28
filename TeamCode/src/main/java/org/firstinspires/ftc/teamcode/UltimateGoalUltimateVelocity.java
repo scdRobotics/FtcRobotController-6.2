@@ -58,37 +58,37 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                      */
                     wobbleLock(); //Servo locks to wobble
                     intakeAdvance.setPosition(0.35); //Set intake advance arm to neutral position
-                    velocitySpin(1, 1000);
+                    velocitySpin(1, 980);
                     forwardEncoder(160, 1); //Approach first PS
                     zeroBotEncoder(1); //Zero angle
                     //updateDist(); //Get updated distances
                     for(int i = 0; i<3; i++) {
                         updateRightDist();
-                        double rightWallDist = readRightDist - 115; //Calculate how much & what direction to move in
-                        //Was 105
-                        //Was 125, 105
+                        double rightWallDist = readRightDist - 114; //Calculate how much & what direction to move in
+                        //Was 109
                         strafeRightEncoder(rightWallDist, 0.5); //Move the distance above
                         pause(0.25);
                         zeroBotEncoder(0.5);
                         //pause(0.5);
                     }
                     zeroBotEncoder(1);
-                    launchAdvanceFast(); //Hit first PS
+                    safeLaunch(980); //Hit first PS
 
                     updateLeftDist();
-                    double leftWallDistFirst = readLeftDist-78;
+                    double leftWallDistFirst = readLeftDist-74;
+                    //Was 79
                     strafeLeftEncoder(leftWallDistFirst, 0.5);
                     zeroBotEncoder(1); //Zero angle
-                    pause(0.1); //Pause for launch arm to move
-                    safeLaunch(1000); //Hit second PS
+                    pause(0.25); //Pause for launch arm to move
+                    safeLaunch(980); //Hit second PS
 
                     updateLeftDist();
-                    double leftWallDistSecond = readLeftDist-62;
-                    //Was 65
+                    double leftWallDistSecond = readLeftDist-55;
+                    //Was 60
                     strafeLeftEncoder(leftWallDistSecond, 0.5);
                     zeroBotEncoder(1); //Zero angle
-                    pause(0.1); //Pause for launch arm to move
-                    safeLaunch(1000); //Hit third PS
+                    pause(0.25); //Pause for launch arm to move
+                    safeLaunch(980); //Hit third PS
                     /*
                     DELIVER WOBBLE
                      */
@@ -105,23 +105,26 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     zeroBotEncoder(1); //Zero angle
                     wobbleGrabDown(1); //Move wobble arm down
                     wobbleLatchRelease();
-                    reverseEncoder(107, 0.5); //Move back towards second wobble
+
+                    //reverseEncoder(107, 0.25); //Move back towards second wobble
+
+                    reverseEncoder(50, 1);
+                    pause(0.1);
+                    zeroBotEncoder(1);
+                    strafeRightEncoder(20, 1);
+                    pause(0.1);
+                    zeroBotEncoder(1);
+                    reverseEncoder(55, 0.5);
+
+
                     //Was 115, 100
-                    double count = 0; //Set counting variable for loop
-                    while(readRightDist>=10 && readBackDist >=30) { //When the wobble is detected (With a failsafe to avoid being too close to the wall)
-                        strafeRightEncoder(3, 1); //Strafe right in small increments
-                        updateDist(); //Update distance sensor values
-                        count++; //Increase the count variable
-                        if(count==5){ //If you've strafed 5 times (missed the wobble)...
-                            break; //...then break out of the loop
-                        }
-                    }
                     pause(0.5);//Pause to make sure the wobble isn't still wobbling
                     wobbleLatch(); //Grab the wobble
                     /*
                     DELIVER SECOND WOBBLE
                      */
                     pause(1); //Pause for grabbing the wobble
+                    zeroBotEncoder(1);
                     wobbleGrabUp(1); //Move the arm up
                     forwardEncoder(82, 1); //Move towards the zone
                     //Was 85, 75
@@ -134,6 +137,9 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     pause(100); //Pause so that the program does not run again
                 }
                 else if (labelName.equals("Single")){ //ONE RING
+                    /*
+                    HIT 3 PS
+                     */
                     wobbleLock(); //Servo locks to wobble
                     intakeAdvance.setPosition(0.35); //Set intake advance arm to neutral position
                     velocitySpin(1, 960);
@@ -142,7 +148,7 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     //updateDist(); //Get updated distances
                     for(int i = 0; i<3; i++) {
                         updateRightDist();
-                        double rightWallDist = readRightDist - 115; //Calculate how much & what direction to move in
+                        double rightWallDist = readRightDist - 109; //Calculate how much & what direction to move in
                         //Was 105
                         //Was 125, 105
                         strafeRightEncoder(rightWallDist, 0.5); //Move the distance above
@@ -154,14 +160,14 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     launchAdvanceFast(); //Hit first PS
 
                     updateLeftDist();
-                    double leftWallDistFirst = readLeftDist-78;
+                    double leftWallDistFirst = readLeftDist-79;
                     strafeLeftEncoder(leftWallDistFirst, 0.5);
                     zeroBotEncoder(1); //Zero angle
                     pause(0.1); //Pause for launch arm to move
                     safeLaunch(960); //Hit second PS
 
                     updateLeftDist();
-                    double leftWallDistSecond = readLeftDist-62;
+                    double leftWallDistSecond = readLeftDist-60;
                     //Was 65
                     strafeLeftEncoder(leftWallDistSecond, 0.5);
                     zeroBotEncoder(1); //Zero angle
