@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
@@ -258,9 +259,9 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     wobbleLock();
                     intakeAdvance.setPosition(0.35);
                     velocitySpin(1, 1020);
-                    forwardEncoder(300, 1);
-                    //pause(0.1);
-                    strafeRightEncoder(90, 1); //Was 85
+                    forwardEncoder(130, 1);
+                    pause(0.1);
+                    VennisFunctEnhanced(220, 1, 0.35);
                     wobbleRelease();
                     zeroBotEncoder(1);
                     /*
@@ -304,6 +305,9 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     /*
                     PICKUP WOBBLE
                      */
+                    updateBackDist();
+                    double moveWobbleBackDist = 60-readBackDist; //was 28
+                    reverseEncoder(moveWobbleBackDist, 0.5);
                     updateRightDist();
                     double moveWobbleDist = 38-readRightDist; //was 28
                     strafeLeftEncoder(moveWobbleDist, 0.5);

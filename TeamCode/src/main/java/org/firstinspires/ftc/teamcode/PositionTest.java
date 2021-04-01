@@ -19,6 +19,10 @@ public class PositionTest extends AutonomousPrime2020 {
             telemetry.update();
         }
 
+        /*forwardEncoder(130, 1);
+        pause(0.1);
+        VennisFunctEnhanced(220, 1, 0.35);*/
+
         //telemetry.addData("Hello!", " World!");
         //pause(10);
         /*leftEncoder(90, 0.25);
