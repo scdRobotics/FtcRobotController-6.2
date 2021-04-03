@@ -13,7 +13,7 @@ import java.util.List;
 
 // TODO: Add distance sensor checks to high goal & two other power shots; eventually, wobble delivery for 4 rings
 
-@Autonomous(name="--AutoVelocity--", group="linearOpMode")
+@Autonomous(name="-----FRANK-----", group="linearOpMode")
 public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
@@ -143,7 +143,7 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                      */
                     wobbleLock(); //Servo locks to wobble
                     intakeAdvance.setPosition(0.35); //Set intake advance arm to neutral position
-                    velocitySpin(1, 960);
+                    velocitySpin(1, 980);
                     forwardEncoder(160, 1); //Approach first PS
                     zeroBotEncoder(1); //Zero angle
                     //updateDist(); //Get updated distances
@@ -165,7 +165,7 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     strafeLeftEncoder(leftWallDistFirst, 0.5);
                     zeroBotEncoder(1); //Zero angle
                     pause(0.1); //Pause for launch arm to move
-                    safeLaunch(960); //Hit second PS
+                    safeLaunch(980); //Hit second PS
 
                     updateLeftDist();
                     double leftWallDistSecond = readLeftDist-60;
@@ -173,7 +173,7 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     strafeLeftEncoder(leftWallDistSecond, 0.5);
                     zeroBotEncoder(1); //Zero angle
                     pause(0.1); //Pause for launch arm to move
-                    safeLaunch(960); //Hit third PS
+                    safeLaunch(980); //Hit third PS
                     /*
                     DELIVER WOBBLE
                      */
@@ -258,56 +258,73 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                      */
                     wobbleLock();
                     intakeAdvance.setPosition(0.35);
-                    velocitySpin(1, 1020);
+                    velocitySpin(1, 1100);
+                    //Was 1060, then 1080
                     forwardEncoder(130, 1);
-                    pause(0.1);
                     VennisFunctEnhanced(220, 1, 0.35);
                     wobbleRelease();
                     zeroBotEncoder(1);
                     /*
                     SHOOT ONBOARD RINGS
                      */
-                    reverseEncoder(150, 1);
+                    reverseEncoder(140, 1);
+                    //Was 150, 145
                     pause(0.1);
                     zeroBotEncoder(1);
                     updateRightDist();
                     double moveDist = 83-readRightDist; //Was 73
                     strafeLeftEncoder(moveDist, 1);
                     pause(0.1);
-                    safeLaunch(1020);
+                    safeLaunch(1100);
                     pause(0.25);
-                    safeLaunch(1020);
+                    safeLaunch(1100);
                     pause(0.25);
-                    safeLaunch(1020);
+                    safeLaunch(1100);
                     pause(0.25);
                     /*
                     SHOOT RING STACK
                      */
+                    velocitySpin(1, 1060);
                     wobbleGrabDown(0.25);
                     latch.setPosition(0.6);
                     intakeStart(1);
-                    reverseEncoder(25, 0.5);
+                    reverseEncoder(35, 0.5);
+                    //Was 25, 30
                     zeroBotEncoder(1);
-                    pause(0.5);
-                    safeLaunch(1020);
-                    reverseEncoder(9, 1);
-                    pause(0.2);
-                    reverseEncoder(9, 1);
-                    pause(0.2);
-                    reverseEncoder(9, 1);
-                    pause(0.2);
-                    safeLaunch(1020);
+                    updateRightDist();
+                    double moveShootDist = 58-readRightDist;
+                    //Was 64, 74, 84
+                    strafeLeftEncoder(moveShootDist, 1);
+                    zeroBotEncoder(1);
                     pause(0.25);
-                    safeLaunch(1020);
+                    safeLaunch(1060);
+                    velocitySpin(1, 1060);
+                    //Was 1040
+                    strafeLeftEncoder(10, 1);
+                    pause(0.1);
+                    reverseEncoder(9, 1);
+                    pause(0.2);
+                    reverseEncoder(9, 1);
+                    pause(0.2);
+                    reverseEncoder(9, 1);
+                    pause(0.2);
+                    zeroBotEncoder(1);
+                    updateRightDist();
+                    double moveShootDistSecond = 58-readRightDist;
+                    //Was 64, 73, 84
+                    strafeLeftEncoder(moveShootDistSecond, 1);
+                    zeroBotEncoder(1);
+                    pause(0.1);
+                    safeLaunch(1060);
                     pause(0.25);
-                    safeLaunch(1020);
+                    safeLaunch(1060);
+                    pause(0.25);
+                    safeLaunch(1060);
                     pause(0.25);
                     /*
                     PICKUP WOBBLE
                      */
-                    updateBackDist();
-                    double moveWobbleBackDist = 60-readBackDist; //was 28
-                    reverseEncoder(moveWobbleBackDist, 0.5);
+                    forwardEncoder(20, 1);
                     updateRightDist();
                     double moveWobbleDist = 38-readRightDist; //was 28
                     strafeLeftEncoder(moveWobbleDist, 0.5);

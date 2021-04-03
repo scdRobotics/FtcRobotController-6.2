@@ -158,12 +158,12 @@ public class AutonomousPrime2020 extends LinearOpMode {
 
         launchLeft.setPower(MotorPower);
         launchRight.setPower(MotorPower);
-        launchLeft.setVelocity(Velocity-60);
+        launchLeft.setVelocity(Velocity);
         launchRight.setVelocity(Velocity);
     }
 
     public void safeLaunch(double Velocity){
-        double launchLeftVelocity = Velocity-60;
+        double launchLeftVelocity = Velocity;
         double launchRightVelocity = Velocity;
         while(opModeIsActive()) {
             if (!(launchRight.getVelocity()==launchRightVelocity && launchLeft.getVelocity()==launchLeftVelocity)) {
