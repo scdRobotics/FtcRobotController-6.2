@@ -161,9 +161,31 @@ public class AutonomousPrime2020 extends LinearOpMode {
         launchLeft.setVelocity(Velocity);
         launchRight.setVelocity(Velocity);
     }
+    public void velocitySpinSixty(double MotorPower, double Velocity){
+        launchLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        launchRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        launchLeft.setPower(MotorPower);
+        launchRight.setPower(MotorPower);
+        launchLeft.setVelocity(Velocity-60);
+        launchRight.setVelocity(Velocity);
+    }
 
     public void safeLaunch(double Velocity){
         double launchLeftVelocity = Velocity;
+        double launchRightVelocity = Velocity;
+        while(opModeIsActive()) {
+            if (!(launchRight.getVelocity()==launchRightVelocity && launchLeft.getVelocity()==launchLeftVelocity)) {
+                pause(0.05);
+            } else {
+                launchAdvanceFast();
+                break;
+            }
+        }
+    }
+
+    public void safeLaunchSixty(double Velocity){
+        double launchLeftVelocity = Velocity-60;
         double launchRightVelocity = Velocity;
         while(opModeIsActive()) {
             if (!(launchRight.getVelocity()==launchRightVelocity && launchLeft.getVelocity()==launchLeftVelocity)) {
