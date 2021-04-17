@@ -358,9 +358,9 @@ public class AutonomousPrime2020 extends LinearOpMode {
     public void launchAdvance(){
         //pause(0.55);
         intakeAdvance.setPosition(0.2);
-        pause(0.75);
+        pause(0.5);
         intakeAdvance.setPosition(0.35);
-        pause(0.75);
+        pause(1);
     }
     public void launchAdvanceFast(){ //pause were 0.25
         intakeAdvance.setPosition(0.2);

@@ -261,6 +261,9 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     velocitySpin(1, 1100);
                     //Was 1060, then 1080
                     forwardEncoder(130, 1);
+
+                    //DELAY???
+
                     VennisFunctEnhanced(220, 1, 0.35);
                     wobbleRelease();
                     zeroBotEncoder(1);
@@ -269,18 +272,24 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                      */
                     reverseEncoder(140, 1);
                     //Was 150, 145
-                    pause(0.1);
+                    //pause(0.1);
                     zeroBotEncoder(1);
                     updateRightDist();
                     double moveDist = 83-readRightDist; //Was 73
                     strafeLeftEncoder(moveDist, 1);
-                    pause(0.1);
+                    //pause(0.1);
                     safeLaunch(1100);
-                    pause(0.25);
+
+                    //pause(0.1);
+
                     safeLaunch(1100);
-                    pause(0.25);
+
+                    //pause(0.1);
+
                     safeLaunch(1100);
-                    pause(0.25);
+
+                    //pause(0.1);
+
                     /*
                     SHOOT RING STACK
                      */
@@ -296,7 +305,9 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     //Was 64, 74, 84
                     strafeLeftEncoder(moveShootDist, 1);
                     zeroBotEncoder(1);
-                    pause(0.25);
+
+                    //pause(0.25);
+
                     safeLaunch(1060);
                     velocitySpin(1, 1060);
                     //Was 1040
@@ -313,14 +324,22 @@ public class UltimateGoalUltimateVelocity extends AutonomousPrime2020 {
                     double moveShootDistSecond = 58-readRightDist;
                     //Was 64, 73, 84
                     strafeLeftEncoder(moveShootDistSecond, 1);
-                    zeroBotEncoder(1);
+
+                    //zeroBotEncoder(1);
+
                     pause(0.1);
                     safeLaunch(1060);
-                    pause(0.25);
+
+                    //pause(0.25);
+
                     safeLaunch(1060);
-                    pause(0.25);
+
+                    //pause(0.1);
+
                     safeLaunch(1060);
-                    pause(0.25);
+
+                    //pause(0.1);
+
                     /*
                     PICKUP WOBBLE
                      */
