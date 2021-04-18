@@ -364,9 +364,12 @@ public class AutonomousPrime2020 extends LinearOpMode {
     }
     public void launchAdvanceFast(){ //pause were 0.25
         intakeAdvance.setPosition(0.2);
-        pause(0.5);
-        //Was 0.5, 0.75
-        intakeAdvance.setPosition(0.35);
+        pause(0.25);
+        //Was 0.5, then 0.75
+        intakeAdvance.setPosition(0.325);
+        //Was 0.35, then 0.25, then 0.285
+        pause(0.1);
+        //Was 0,
     }
     public void launchAdvanceFinal(){
         intakeAdvance.setPosition(0.2);
@@ -375,7 +378,8 @@ public class AutonomousPrime2020 extends LinearOpMode {
     }
     public void wobbleRelease() {
         wobbleRelease.setPosition(0.75);
-        pause(0.2);
+        pause(0.1);
+        //Was 0.2
     }
     public void wobbleLock(){
         wobbleRelease.setPosition(0.15);

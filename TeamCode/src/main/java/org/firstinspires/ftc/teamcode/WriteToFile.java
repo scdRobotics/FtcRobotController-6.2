@@ -118,6 +118,8 @@ public class WriteToFile extends AutonomousPrime2020{
         addData("LaunchRight Velocity");
         addData("LaunchLeft Velocity");
         addData("Elapsed Time");
+        addData("Launch Left Error");
+        addData("Launch Right Error");
         update(); //Update File
         velocitySpin(1, 1020); //Spin wheels
         System.out.println("Start Loop");
@@ -130,6 +132,11 @@ public class WriteToFile extends AutonomousPrime2020{
             telemetry.update();
             addData(launchLeft.getVelocity()); //Record launch left wheel motor velocity
             addData(timer.time()); //Add timer when recording happens
+
+            addData(1020-launchLeft.getVelocity()); //Add timer when recording happens
+            addData(1020-launchRight.getVelocity()); //Add timer when recording happens
+
+
             //addData("\n"); //New line
             update(); //Update File- might want to update file when is stop requested to save time?? Risky if function fails to complete before stop, though
             if(timer.time()>=300000){
