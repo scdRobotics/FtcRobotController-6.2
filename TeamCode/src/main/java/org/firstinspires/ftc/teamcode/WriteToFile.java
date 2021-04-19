@@ -115,8 +115,9 @@ public class WriteToFile extends AutonomousPrime2020{
         mapObjects();
         waitForStart();
         Log("FinalVelocityOverTime", false); //Make file
-        addData("LaunchRight Velocity");
-        addData("LaunchLeft Velocity");
+
+        //addData("LaunchRight Velocity");
+        //addData("LaunchLeft Velocity");
         addData("Elapsed Time");
         addData("Launch Left Error");
         addData("Launch Right Error");
@@ -126,11 +127,11 @@ public class WriteToFile extends AutonomousPrime2020{
         timer.reset(); //Reset timer
         boolean loop = true;
         while (opModeIsActive() && loop) { //Loop
-            addData(launchRight.getVelocity()); //Record launch right motor velocity
-            System.out.println("In Loop");
-            telemetry.addData("Y'ello?", "Who dis?");
-            telemetry.update();
-            addData(launchLeft.getVelocity()); //Record launch left wheel motor velocity
+            //addData(launchRight.getVelocity()); //Record launch right motor velocity
+            //System.out.println("In Loop");
+            //telemetry.addData("Y'ello?", "Who dis?");
+            //telemetry.update();
+            //addData(launchLeft.getVelocity()); //Record launch left wheel motor velocity
             addData(timer.time()); //Add timer when recording happens
 
             addData(1020-launchLeft.getVelocity()); //Add timer when recording happens
