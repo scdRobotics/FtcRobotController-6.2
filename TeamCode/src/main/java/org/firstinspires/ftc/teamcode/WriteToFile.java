@@ -114,33 +114,53 @@ public class WriteToFile extends AutonomousPrime2020{
     public void runOpMode(){
         mapObjects();
         waitForStart();
-        Log("FinalVelocityOverTime", false); //Make file
+        Log("DistanceSensorTest", false); //Make file
 
         //addData("LaunchRight Velocity");
         //addData("LaunchLeft Velocity");
-        addData("Elapsed Time");
-        addData("Launch Left Error");
-        addData("Launch Right Error");
+        //addData("Elapsed Time");
+        //addData("Launch Left Error");
+        addData("Right Sensor Value (Cardboard)");
+        addData("Right Sensor Time");
+        addData("Back Sensor Value (Wall)");
+        addData("Back Sensor Time");
         update(); //Update File
-        velocitySpin(1, 1020); //Spin wheels
         System.out.println("Start Loop");
         timer.reset(); //Reset timer
         boolean loop = true;
+        int count = 0;
         while (opModeIsActive() && loop) { //Loop
             //addData(launchRight.getVelocity()); //Record launch right motor velocity
             //System.out.println("In Loop");
             //telemetry.addData("Y'ello?", "Who dis?");
             //telemetry.update();
             //addData(launchLeft.getVelocity()); //Record launch left wheel motor velocity
-            addData(timer.time()); //Add timer when recording happens
+            //addData(timer.time()); //Add timer when recording happens
 
-            addData(1020-launchLeft.getVelocity()); //Add timer when recording happens
-            addData(1020-launchRight.getVelocity()); //Add timer when recording happens
+            //addData(1020-launchLeft.getVelocity()); //Add timer when recording happens
+            //addData(1020-launchRight.getVelocity()); //Add timer when recording happens
+
+            updateRightDist();
+            addData(readRightDist);
+            addData(timer.time());
+            timer.reset();
+
+            updateBackDist();
+            addData(readBackDist);
+            addData(timer.time());
+            timer.reset();
+
+            count++;
+            telemetry.addData("Loops Through: ", count);
+            telemetry.update();
 
 
             //addData("\n"); //New line
             update(); //Update File- might want to update file when is stop requested to save time?? Risky if function fails to complete before stop, though
-            if(timer.time()>=300000){
+
+
+
+            if(count>=5000){
                 update();
                 System.out.println("Loop End");
                 telemetry.update();
